@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace HT_Lab5_16_11
+namespace HT_Lab5_16_11;
+
+internal static class Program
 {
-    internal static class Program
+    private static void Main()
     {
-        private static void Main()
-        {
-            Console.WriteLine("Hello, world!");
-        }
+        Console.WriteLine("Hello, world!");
     }
 }
