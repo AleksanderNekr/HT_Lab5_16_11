@@ -22,7 +22,7 @@ internal static class MyArray
     }
 
     /// <summary>
-    ///     Функция для ручного ввода элементов массива
+    ///     Ручной ввод элементов массива
     /// </summary>
     /// <param name="size">Размер массива</param>
     /// <returns>Массив <see cref="T:System.Int32" /> значений</returns>
