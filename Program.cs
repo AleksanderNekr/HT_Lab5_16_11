@@ -1,4 +1,6 @@
-﻿namespace HT_Lab5_16_11;
+﻿// This program writed using C# 10 and .NET 6
+
+namespace HT_Lab5_16_11;
 
 internal static class Program
 {
