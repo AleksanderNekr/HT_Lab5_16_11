@@ -23,7 +23,7 @@ internal static class Program
     /// </summary>
     /// <param name="arrayInts">Выходной массив <see cref="T:System.Int32" /> значений</param>
     /// <param name="size">Размер массива</param>
-    private static void ReadArray(out int[] arrayInts, uint size)
+    private static void Read(out int[] arrayInts, uint size)
     {
         arrayInts = new int[size];
         for (var i = 0; i < size; i++)
@@ -39,7 +39,7 @@ internal static class Program
 
     /// <summary>
     ///     Генерация массива
-    ///     <see cref="T:System.Int32"/>
+    ///     <see cref="T:System.Int32" />
     ///     значений размером sizeArray
     ///     с помощью датчика случайных чисел.
     /// </summary>
@@ -58,22 +58,20 @@ internal static class Program
     }
 
     /// <summary>
-    /// Вывод массива <see cref="T:System.Int32" /> значений в консоль.
+    ///     Вывод массива <see cref="T:System.Int32" /> значений в консоль.
     /// </summary>
     /// <param name="arrayInts">Массив</param>
-    /// <param name="sep">Разделитель между элементами (по умолчанию – пробел)</param>
-    private static void WriteArray(IReadOnlyCollection<int> arrayInts, string sep = " ")
+    private static void Write(IReadOnlyCollection<int> arrayInts)
     {
-        switch (arrayInts.Count)
+        if (arrayInts.Count > 0)
         {
-            case > 0:
-                foreach (var variable in arrayInts)
-                    Console.Write(variable + sep);
-                Console.WriteLine();
-                break;
-            default:
-                Console.WriteLine("Массив не содержит элементов");
-                break;
+            foreach (var variable in arrayInts)
+                Console.Write(variable + " ");
+            Console.WriteLine();
+        }
+        else
+        {
+            Console.WriteLine("Массив не содержит элементов");
         }
     }
 
@@ -94,10 +92,10 @@ internal static class Program
 
     private static void Main()
     {
-        ReadArray(out var arr, 5);
+        Read(out var arr, 5);
         ReadInt(out var elem);
         ReadInt(out var index);
         Append(ref arr, elem);
-        WriteArray(arr);
+        Write(arr);
     }
 }
