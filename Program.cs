@@ -2,7 +2,7 @@
 
 namespace HT_Lab5_16_11;
 
-internal static class MyArray
+internal static class Program
 {
     /// <summary>
     ///     Ввод числа типа <see cref="T:System.Int32" />
@@ -23,7 +23,7 @@ internal static class MyArray
     /// </summary>
     /// <param name="arrayInts">Выходной массив <see cref="T:System.Int32" /> значений</param>
     /// <param name="size">Размер массива</param>
-    internal static void ReadArray(out int[] arrayInts, uint size)
+    private static void ReadArray(out int[] arrayInts, uint size)
     {
         arrayInts = new int[size];
         for (var i = 0; i < size; i++)
@@ -36,14 +36,68 @@ internal static class MyArray
         if (size == 0)
             Console.WriteLine("Массив не содержит элементов");
     }
-}
 
-internal static class Program
-{
+    /// <summary>
+    ///     Генерация массива
+    ///     <see cref="T:System.Int32"/>
+    ///     значений размером sizeArray
+    ///     с помощью датчика случайных чисел.
+    /// </summary>
+    private static int[] GenerateArray(uint sizeArray)
+    {
+        var arrayInts = new int[sizeArray];
+
+        var generator = new Random();
+        for (var i = 0; i < sizeArray; i++)
+            arrayInts[i] = generator.Next(-100, 101);
+
+        Console.WriteLine("Массив успешно сформирован");
+        if (sizeArray == 0)
+            Console.WriteLine("Массив не содержит элементов");
+        return arrayInts;
+    }
+
+    /// <summary>
+    /// Вывод массива <see cref="T:System.Int32" /> значений в консоль.
+    /// </summary>
+    /// <param name="arrayInts">Массив</param>
+    /// <param name="sep">Разделитель между элементами (по умолчанию – пробел)</param>
+    private static void WriteArray(IReadOnlyCollection<int> arrayInts, string sep = " ")
+    {
+        switch (arrayInts.Count)
+        {
+            case > 0:
+                foreach (var variable in arrayInts)
+                    Console.Write(variable + sep);
+                Console.WriteLine();
+                break;
+            default:
+                Console.WriteLine("Массив не содержит элементов");
+                break;
+        }
+    }
+
+    /// <summary>
+    ///     Вставляет число типа <see cref="T:System.Int32" /> в массив <see cref="T:System.Int32" /> значений
+    /// </summary>
+    /// <param name="arrayInts">Массив</param>
+    /// <param name="elem">Вставляемое число</param>
+    /// <param name="index">Индекс в массиве для всавляемого числа (по умолчанию – 0)</param>
+    private static void Append(ref int[] arrayInts, int elem, int index = 0)
+    {
+        Array.Resize(ref arrayInts, arrayInts.Length + 1);
+        Array.Copy(arrayInts, index,
+                   arrayInts, index + 1,
+                   arrayInts.Length - index - 1);
+        arrayInts[index] = elem;
+    }
+
     private static void Main()
     {
-        MyArray.ReadArray(out var arr, 5);
-        foreach (var variable in arr)
-            Console.Write(variable + " ");
+        ReadArray(out var arr, 5);
+        ReadInt(out var elem);
+        ReadInt(out var index);
+        Append(ref arr, elem);
+        WriteArray(arr);
     }
 }
