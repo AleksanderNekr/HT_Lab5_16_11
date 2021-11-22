@@ -18,6 +18,12 @@ internal static class Program
         } while (!isConvert);
     }
 
+    private static void Main()
+    {
+        Generate(out var arr, 5, 4);
+        Write(arr);
+    }
+
     #region Одномерный массив
 
     /// <summary>
@@ -107,14 +113,68 @@ internal static class Program
 
     #endregion
 
-    private static void Main()
+    #region Двумерный массив
+
+    /// <summary>
+    ///     Ручной ввод элементов двумерного массива
+    /// </summary>
+    /// <param name="matrInts">Выходной двумерный массив <see cref="T:System.Int32" /> значений</param>
+    /// <param name="sizeRow">Количество строк двумерного массива</param>
+    /// <param name="sizeColumn">Количество столбцов двумерного массива</param>
+    private static void Read(out int[,] matrInts, uint sizeRow, uint sizeColumn)
     {
-        Read(out var arr, 5);
-        ReadInt(out var elem);
-        ReadInt(out var index);
-        arr = arr.Append(elem);
-        var newArr = new[] { 9, 8, 7 };
-        arr = arr.Append(newArr, 6);
-        Write(arr);
+        matrInts = new int[sizeRow, sizeColumn];
+        for (var i = 0; i < sizeRow; i++)
+            for (var j = 0; j < sizeColumn; j++)
+            {
+                Console.Write($"Введите элемент в ячейке [{i + 1}, {j + 1}]: ");
+                ReadInt(out matrInts[i, j]);
+            }
+
+        Console.WriteLine("Матрица успешно сформирована");
+        if (matrInts.Length == 0)
+            Console.WriteLine("Матрица не содержит элементов");
     }
+
+    /// <summary>
+    ///     Генерация двумерного массива
+    ///     <see cref="T:System.Int32" />
+    ///     с помощью датчика случайных чисел.
+    /// </summary>
+    /// <param name="matrInts">Двумерный массив</param>
+    /// <param name="sizeRow">Количество строк двумерного массива</param>
+    /// <param name="sizeColumn">Количество столбцов двумерного массива</param>
+    private static void Generate(out int[,] matrInts, uint sizeRow, uint sizeColumn)
+    {
+        matrInts = new int[sizeRow, sizeColumn];
+
+        var generator = new Random();
+        for (var i = 0; i < sizeRow; i++)
+            for (var j = 0; j < sizeColumn; j++)
+                matrInts[i, j] = generator.Next(-100, 101);
+
+        Console.WriteLine("Матрица успешно сформирована");
+        if (matrInts.Length == 0)
+            Console.WriteLine("Матрица не содержит элементов");
+    }
+
+    /// <summary>
+    ///     Вывод двумерного массива <see cref="T:System.Int32" /> значений в консоль.
+    /// </summary>
+    /// <param name="matrInts">Двумерный массив</param>
+    private static void Write(int[,] matrInts)
+    {
+        if (matrInts.Length > 0)
+            for (var i = 0; i < matrInts.GetLength(0); i++)
+            {
+                for (var j = 0; j < matrInts.GetLength(1); j++)
+                    Console.Write($"{matrInts[i, j],4} ");
+
+                Console.WriteLine();
+            }
+        else
+            Console.WriteLine("Массив не содержит элементов");
+    }
+
+    #endregion
 }
