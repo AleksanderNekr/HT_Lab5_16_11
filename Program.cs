@@ -22,6 +22,9 @@ internal static class Program
     {
         Generate(out var arr, 5, 4);
         Write(arr);
+        Console.WriteLine();
+        arr = arr.DeleteColumn(3);
+        Write(arr);
     }
 
     #region Одномерный массив
@@ -174,6 +177,24 @@ internal static class Program
             }
         else
             Console.WriteLine("Массив не содержит элементов");
+    }
+
+    /// <summary>
+    ///     Удаляет из двумерного массива столбец с заданным индексом
+    /// </summary>
+    /// <param name="matrInts">Двумерный массив</param>
+    /// <param name="indexColumn">Индекс удаляемого столбца</param>
+    private static int[,] DeleteColumn(this int[,] matrInts, int indexColumn)
+    {
+        var resMatrInts = new int[matrInts.GetLength(0), matrInts.GetLength(1) - 1];
+        for (var j = 0; j < matrInts.GetLength(1); j++)
+            if (j < indexColumn)
+                for (var i = 0; i < matrInts.GetLength(0); i++)
+                    resMatrInts[i, j] = matrInts[i, j];
+            else if (j > indexColumn)
+                for (var i = 0; i < matrInts.GetLength(0); i++)
+                    resMatrInts[i, j - 1] = matrInts[i, j];
+        return resMatrInts;
     }
 
     #endregion
