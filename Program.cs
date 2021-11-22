@@ -18,6 +18,8 @@ internal static class Program
         } while (!isConvert);
     }
 
+    #region Одномерный массив
+
     /// <summary>
     ///     Ручной ввод элементов массива
     /// </summary>
@@ -43,9 +45,9 @@ internal static class Program
     ///     значений размером sizeArray
     ///     с помощью датчика случайных чисел.
     /// </summary>
-    private static int[] GenerateArray(uint sizeArray)
+    private static void Generate(out int[] arrayInts, uint sizeArray)
     {
-        var arrayInts = new int[sizeArray];
+        arrayInts = new int[sizeArray];
 
         var generator = new Random();
         for (var i = 0; i < sizeArray; i++)
@@ -54,16 +56,15 @@ internal static class Program
         Console.WriteLine("Массив успешно сформирован");
         if (sizeArray == 0)
             Console.WriteLine("Массив не содержит элементов");
-        return arrayInts;
     }
 
     /// <summary>
     ///     Вывод массива <see cref="T:System.Int32" /> значений в консоль.
     /// </summary>
     /// <param name="arrayInts">Массив</param>
-    private static void Write(IReadOnlyCollection<int> arrayInts)
+    private static void Write(int[] arrayInts)
     {
-        if (arrayInts.Count > 0)
+        if (arrayInts.Length > 0)
         {
             foreach (var variable in arrayInts)
                 Console.Write(variable + " ");
@@ -80,22 +81,40 @@ internal static class Program
     /// </summary>
     /// <param name="arrayInts">Массив</param>
     /// <param name="elem">Вставляемое число</param>
-    /// <param name="index">Индекс в массиве для всавляемого числа (по умолчанию – 0)</param>
-    private static void Append(ref int[] arrayInts, int elem, int index = 0)
+    /// <param name="index">Индекс в массиве для вставляемого числа (по умолчанию – 0)</param>
+    private static int[] Append(this int[] arrayInts, int elem, int index = 0)
     {
         Array.Resize(ref arrayInts, arrayInts.Length + 1);
         Array.Copy(arrayInts, index,
                    arrayInts, index + 1,
                    arrayInts.Length - index - 1);
         arrayInts[index] = elem;
+        return arrayInts;
     }
+
+    /// <summary>
+    ///     Вставляет массив чисел типа <see cref="T:System.Int32" /> в массив <see cref="T:System.Int32" /> значений
+    /// </summary>
+    /// <param name="arrayInts">Исходный массив</param>
+    /// <param name="arrayIntsAdd">Дополнительный массив</param>
+    /// <param name="index">Индекс, на место которого начинать вставлять массив (по умолчанию – 0)</param>
+    private static int[] Append(this int[] arrayInts, int[] arrayIntsAdd, int index = 0)
+    {
+        foreach (var element in arrayIntsAdd)
+            arrayInts = arrayInts.Append(element, index);
+        return arrayInts;
+    }
+
+    #endregion
 
     private static void Main()
     {
         Read(out var arr, 5);
         ReadInt(out var elem);
         ReadInt(out var index);
-        Append(ref arr, elem);
+        arr = arr.Append(elem);
+        var newArr = new[] { 9, 8, 7 };
+        arr = arr.Append(newArr, 6);
         Write(arr);
     }
 }
