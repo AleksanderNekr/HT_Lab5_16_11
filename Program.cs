@@ -24,7 +24,7 @@ internal static class Program
 
     #region Литерные строки сообщений
 
-    private const string InpMsgUint         = "Введите целое неотрицательное число – ";
+    private const string InpMsgCountOf      = "Введите целое неотрицательное число – количество ";
     private const string OutMsgArraySuccess = "Массив успешно сформирован";
     private const string OutMsgArrayEmpty   = "Массив не содержит элементов";
 
@@ -52,7 +52,8 @@ internal static class Program
     /// </summary>
     /// <param name="uintNum">Число</param>
     /// <param name="message">Необязательное сообщение при вводе</param>
-    private static void ReadUint(out uint uintNum, string message = "Введите целое неотрицательное число: ")
+    private static void ReadUint(out uint uintNum,
+                                 string   message = "Введите целое неотрицательное число: ")
     {
         Console.Write(message);
         bool isConvert;
@@ -82,7 +83,7 @@ internal static class Program
     ///     Вывод сообщений после формирования массивов или матриц
     /// </summary>
     /// <param name="param">Параметр, отвечающий за размер массива или матрицы</param>
-    private static void FinalMessage(uint   param)
+    private static void FinalMessage(uint param)
     {
         Console.WriteLine(OutMsgArraySuccess);
         if (param == 0)
@@ -98,7 +99,7 @@ internal static class Program
     /// </summary>
     private static void ReadArray(out int[] arrayInts)
     {
-        ReadUint(out uint sizeArray, $"{InpMsgUint}размер массива: ");
+        ReadUint(out uint sizeArray, $"{InpMsgCountOf}элементов в массиве: ");
         arrayInts = new int[sizeArray];
 
         for (int i = 0; i < sizeArray; i++)
@@ -114,7 +115,7 @@ internal static class Program
     /// </summary>
     private static void GenerateArray(out int[] arrayInts)
     {
-        ReadUint(out uint sizeArray, $"{InpMsgUint}размер массива: ");
+        ReadUint(out uint sizeArray, $"{InpMsgCountOf}элементов в массиве: ");
         arrayInts = new int[sizeArray];
         Random generator = new();
 
@@ -187,8 +188,8 @@ internal static class Program
     /// </summary>
     private static void ReadArray(out int[,] matrInts)
     {
-        ReadUint(out uint countOfRows,    $"{InpMsgUint}количество строк двумерного массива (матрицы): ");
-        ReadUint(out uint countOfColumns, $"{InpMsgUint}количество столбцов двумерного массива (матрицы): ");
+        ReadUint(out uint countOfRows,    $"{InpMsgCountOf}строк двумерного массива (матрицы): ");
+        ReadUint(out uint countOfColumns, $"{InpMsgCountOf}столбцов двумерного массива (матрицы): ");
         matrInts = new int[countOfRows, countOfColumns];
 
         for (int i = 0; i < countOfRows; i++)
@@ -207,8 +208,8 @@ internal static class Program
     /// </summary>
     private static void GenerateArray(out int[,] matrInts)
     {
-        ReadUint(out uint countOfRows,    $"{InpMsgUint}количество строк двумерного массива (матрицы): ");
-        ReadUint(out uint countOfColumns, $"{InpMsgUint}количество столбцов двумерного массива (матрицы): ");
+        ReadUint(out uint countOfRows,    $"{InpMsgCountOf}строк двумерного массива (матрицы): ");
+        ReadUint(out uint countOfColumns, $"{InpMsgCountOf}столбцов двумерного массива (матрицы): ");
         matrInts = new int[countOfRows, countOfColumns];
 
         Random generator = new();
@@ -286,12 +287,12 @@ internal static class Program
     /// </summary>
     private static void ReadArray(out int[][] jaggedArrInts)
     {
-        ReadUint(out uint countOfRows, $"{InpMsgUint}количество строк рваного массива: ");
+        ReadUint(out uint countOfRows, $"{InpMsgCountOf}строк рваного массива: ");
         jaggedArrInts = new int[countOfRows][];
 
         for (int i = 0; i < countOfRows; i++)
         {
-            ReadUint(out uint countOfCells, $"{InpMsgUint}количество ячеек в {i + 1} строке: ");
+            ReadUint(out uint countOfCells, $"{InpMsgCountOf}ячеек в {i + 1} строке: ");
             jaggedArrInts[i] = new int[countOfCells];
             for (int j = 0; j < countOfCells; j++)
                 ReadInt(out jaggedArrInts[i][j],
@@ -308,12 +309,12 @@ internal static class Program
     private static void GenerateArray(out int[][] jaggedArrInts)
     {
         Random generator = new();
-        ReadUint(out uint countOfRows, $"{InpMsgUint}количество строк рваного массива: ");
+        ReadUint(out uint countOfRows, $"{InpMsgCountOf}строк рваного массива: ");
 
         jaggedArrInts = new int[countOfRows][];
         for (int i = 0; i < countOfRows; i++)
         {
-            ReadUint(out uint countOfCells, $"{InpMsgUint}количество ячеек в {i + 1} строке: ");
+            ReadUint(out uint countOfCells, $"{InpMsgCountOf}ячеек в {i + 1} строке: ");
             jaggedArrInts[i] = new int[countOfCells];
             for (int j = 0; j < countOfCells; j++)
                 jaggedArrInts[i][j] = generator.Next(-100, 101);
