@@ -20,10 +20,10 @@ internal static class Program
 
     private static void Main()
     {
-        Generate(out var arr, 5, 4);
+        Read(out var arr, 5, 4);
         Write(arr);
         Console.WriteLine();
-        arr = arr.DeleteColumn(3);
+        arr = arr.DeleteColWithZero();
         Write(arr);
     }
 
@@ -154,7 +154,7 @@ internal static class Program
         var generator = new Random();
         for (var i = 0; i < sizeRow; i++)
             for (var j = 0; j < sizeColumn; j++)
-                matrInts[i, j] = generator.Next(-100, 101);
+                matrInts[i, j] = generator.Next(-5, 5);
 
         Console.WriteLine("Матрица успешно сформирована");
         if (matrInts.Length == 0)
@@ -195,6 +195,22 @@ internal static class Program
                 for (var i = 0; i < matrInts.GetLength(0); i++)
                     resMatrInts[i, j - 1] = matrInts[i, j];
         return resMatrInts;
+    }
+
+    private static int[,] DeleteColWithZero(this int[,] matrInts)
+    {
+        for (var j = 0; j < matrInts.GetLength(1); j++)
+        {
+            for (var i = 0; i < matrInts.GetLength(0); i++)
+            {
+                if (j >= matrInts.GetLength(1) || matrInts[i, j] != 0)
+                    continue;
+                matrInts = matrInts.DeleteColumn(j);
+                i = -1;
+            }
+        }
+
+        return matrInts;
     }
 
     #endregion
