@@ -40,7 +40,7 @@ internal static class Program
     }
 
     /// <summary>
-    /// Ввод числа типа <see cref="T:System.UInt32" />
+    ///     Ввод числа типа <see cref="T:System.UInt32" />
     /// </summary>
     /// <param name="uintNum">Число</param>
     /// <param name="message">Необязательное сообщение при вводе</param>
@@ -60,7 +60,7 @@ internal static class Program
 
 
     /// <summary>
-    /// Вывод сообщений после формирования массивов или матриц
+    ///     Вывод сообщений после формирования массивов или матриц
     /// </summary>
     /// <param name="param">Параметр, отвечающий за размер массива или матрицы</param>
     /// <param name="msgSuccess">Сообщение об успешном формировании (необязательно)</param>
@@ -75,7 +75,7 @@ internal static class Program
     }
 
     /// <summary>
-    /// Вывод сообщений после формирования массивов или матриц
+    ///     Вывод сообщений после формирования массивов или матриц
     /// </summary>
     /// <param name="param">Параметр, отвечающий за размер массива или матрицы</param>
     /// <param name="msgSuccess">Сообщение об успешном формировании (необязательно)</param>
@@ -183,8 +183,8 @@ internal static class Program
 
     #region Двумерный массив
 
-    private const string InpMsgSizeRow     = "Введите целое неотрицательное число – размер строки матрицы: ";
-    private const string InpMsgSizeColumn  = "Введите целое неотрицательное число – размер столбца матрицы: ";
+    private const string InpMsgSizeRow     = "Введите целое неотрицательное число – количество строк матрицы: ";
+    private const string InpMsgSizeColumn  = "Введите целое неотрицательное число – количество столбцов матрицы: ";
     private const string OutMsgMatrSuccess = "Матрица успешно сформирована";
     private const string OutMsgMatrEmpty   = "Матрица не содержит элементов";
 
@@ -288,20 +288,20 @@ internal static class Program
 
     #region Рваный массив
 
-    private const string InpMsgSizeRowJag = "Введите целое неотрицательное число" +
-                                            " – количество строк рваного массива: ";
+    private const string InpMsgCount = "Введите целое неотрицательное число" +
+                                       " – количество ";
 
     /// <summary>
     ///     Ручной ввод элементов рваного массива <see cref="T:System.Int32" /> значений
     /// </summary>
     private static void ReadArray(out int[][] jaggedArrInts)
     {
-        ReadUint(out uint sizeRow, InpMsgSizeRowJag);
+        ReadUint(out uint sizeRow, $"{InpMsgCount}строк рваного массива: ");
         jaggedArrInts = new int[sizeRow][];
 
         for (int i = 0; i < sizeRow; i++)
         {
-            ReadUint(out uint sizeColumn);
+            ReadUint(out uint sizeColumn, $"{InpMsgCount}ячеек в {i + 1} строке: ");
             jaggedArrInts[i] = new int[sizeColumn];
             for (int j = 0; j < sizeColumn; j++)
                 ReadInt(out jaggedArrInts[i][j],
@@ -318,12 +318,12 @@ internal static class Program
     private static void GenerateArray(out int[][] jaggedArrInts)
     {
         Random generator = new();
-        ReadUint(out uint sizeRow, InpMsgSizeRowJag);
+        ReadUint(out uint sizeRow, $"{InpMsgCount}строк рваного массива: ");
 
         jaggedArrInts = new int[sizeRow][];
         for (int i = 0; i < sizeRow; i++)
         {
-            ReadUint(out uint sizeColumn);
+            ReadUint(out uint sizeColumn, $"{InpMsgCount}ячеек в {i + 1} строке: ");
             jaggedArrInts[i] = new int[sizeColumn];
             for (int j = 0; j < sizeColumn; j++)
                 jaggedArrInts[i][j] = generator.Next(-100, 101);
