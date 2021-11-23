@@ -4,6 +4,26 @@ namespace HT_Lab5_16_11;
 
 internal static class Program
 {
+    private static void Main()
+    {
+        // Тип значений, допускающий значение NULL, или T?,
+        // представляет все значения своего базового типа значения T,
+        // а также дополнительное значение NULL
+        GenerateArray(out int[,]? arr);
+        WriteArray(arr);
+        Console.WriteLine();
+        arr = arr.DeleteColumnsContainZero();
+        WriteArray(arr);
+        GenerateArray(out int[][] jaggedArr);
+        WriteArray(jaggedArr);
+        Console.WriteLine();
+        int[] newArr = { 1, 2, 3, 4 };
+        jaggedArr = jaggedArr.Append(newArr, 4);
+        WriteArray(jaggedArr);
+    }
+
+    #region Дополнительные функции
+
     /// <summary>
     ///     Ввод числа типа <see cref="T:System.Int32" />
     /// </summary>
@@ -18,47 +38,40 @@ internal static class Program
         } while (!isConvert);
     }
 
-    private static void Main()
-    {
-        // Тип значений, допускающий значение NULL, или T?,
-        // представляет все значения своего базового типа значения T,
-        // а также дополнительное значение NULL
-        Generate(out int[,]? arr, 7, 7);
-        Write(arr);
-        Console.WriteLine();
-        arr = arr.DeleteColumnContainsZero();
-        Write(arr);
-    }
+    #endregion
 
     #region Одномерный массив
 
     /// <summary>
-    ///     Ручной ввод элементов массива
+    ///     Ручной ввод элементов массива <see cref="T:System.Int32" /> значений
     /// </summary>
-    /// <param name="arrayInts">Выходной массив <see cref="T:System.Int32" /> значений</param>
-    /// <param name="size">Размер массива</param>
-    private static void Read(out int[] arrayInts, uint size)
+    private static void ReadArray(out int[] arrayInts)
     {
-        arrayInts = new int[size];
-        for (int i = 0; i < size; i++)
+        Console.Write("Введите количество элементов в массиве: ");
+        ReadInt(out int sizeArray);
+
+        arrayInts = new int[sizeArray];
+        for (int i = 0; i < sizeArray; i++)
         {
             Console.Write($"Введите элемент №{i + 1}: ");
             ReadInt(out arrayInts[i]);
         }
 
         Console.WriteLine("Массив успешно сформирован");
-        if (size == 0)
+        if (sizeArray == 0)
             Console.WriteLine("Массив не содержит элементов");
     }
 
     /// <summary>
     ///     Генерация массива
     ///     <see cref="T:System.Int32" />
-    ///     значений размером sizeArray
-    ///     с помощью датчика случайных чисел.
+    ///     с помощью датчика случайных чисел
     /// </summary>
-    private static void Generate(out int[] arrayInts, uint sizeArray)
+    private static void GenerateArray(out int[] arrayInts)
     {
+        Console.Write("Введите количество элементов в массиве: ");
+        ReadInt(out int sizeArray);
+
         arrayInts = new int[sizeArray];
 
         Random generator = new();
@@ -71,15 +84,14 @@ internal static class Program
     }
 
     /// <summary>
-    ///     Вывод массива <see cref="T:System.Int32" /> значений в консоль.
+    ///     Вывод массива <see cref="T:System.Int32" /> значений в консоль
     /// </summary>
-    /// <param name="arrayInts">Массив</param>
-    private static void Write(int[] arrayInts)
+    private static void WriteArray(int[] arrayInts)
     {
         if (arrayInts.Length > 0)
         {
             foreach (int variable in arrayInts)
-                Console.Write(variable + " ");
+                Console.Write($"{variable,5}");
             Console.WriteLine();
         }
         else
@@ -92,24 +104,29 @@ internal static class Program
     ///     Вставляет число типа <see cref="T:System.Int32" /> в массив <see cref="T:System.Int32" /> значений
     /// </summary>
     /// <param name="arrayInts">Массив</param>
-    /// <param name="elem">Вставляемое число</param>
-    /// <param name="index">Индекс в массиве для вставляемого числа (по умолчанию – 0)</param>
-    private static int[] Append(this int[] arrayInts, int elem, int index = 0)
+    /// <param name="element">Вставляемое число</param>
+    /// <param name="index">Индекс в массиве для вставляемого числа</param>
+    private static int[] Append(this int[] arrayInts, int element, int index)
     {
         Array.Resize(ref arrayInts, arrayInts.Length + 1);
         Array.Copy(arrayInts, index,
                    arrayInts, index + 1,
                    arrayInts.Length - index - 1);
-        arrayInts[index] = elem;
+        arrayInts[index] = element;
+
         return arrayInts;
     }
 
     /// <summary>
-    ///     Вставляет массив чисел типа <see cref="T:System.Int32" /> в массив <see cref="T:System.Int32" /> значений
+    ///     Вставляет массив чисел типа <see cref="T:System.Int32" />
+    ///     в массив <see cref="T:System.Int32" /> значений
     /// </summary>
     /// <param name="arrayInts">Исходный массив</param>
     /// <param name="arrayIntsAdd">Дополнительный массив</param>
-    /// <param name="index">Индекс, на место которого начинать вставлять массив (по умолчанию – 0)</param>
+    /// <param name="index">
+    ///     Индекс, на место которого начинать вставлять массив
+    ///     (по умолчанию – 0)
+    /// </param>
     private static int[] Append(this int[] arrayInts, int[] arrayIntsAdd, int index = 0)
     {
         foreach (int element in arrayIntsAdd)
@@ -122,14 +139,16 @@ internal static class Program
     #region Двумерный массив
 
     /// <summary>
-    ///     Ручной ввод элементов двумерного массива
+    ///     Ручной ввод элементов двумерного массива <see cref="T:System.Int32" /> значений
     /// </summary>
-    /// <param name="matrInts">Выходной двумерный массив <see cref="T:System.Int32" /> значений</param>
-    /// <param name="sizeRow">Количество строк двумерного массива</param>
-    /// <param name="sizeColumn">Количество столбцов двумерного массива</param>
-    private static void Read(out int[,] matrInts, uint sizeRow, uint sizeColumn)
+    private static void ReadArray(out int[,] matrInts)
     {
+        Console.Write("Введите количество строк в матрице: ");
+        ReadInt(out int sizeRow);
+        Console.Write("Введите количество столбцов в матрице: ");
+        ReadInt(out int sizeColumn);
         matrInts = new int[sizeRow, sizeColumn];
+
         for (int i = 0; i < sizeRow; i++)
             for (int j = 0; j < sizeColumn; j++)
             {
@@ -145,19 +164,20 @@ internal static class Program
     /// <summary>
     ///     Генерация двумерного массива
     ///     <see cref="T:System.Int32" />
-    ///     с помощью датчика случайных чисел.
+    ///     с помощью датчика случайных чисел
     /// </summary>
-    /// <param name="matrInts">Двумерный массив</param>
-    /// <param name="sizeRow">Количество строк двумерного массива</param>
-    /// <param name="sizeColumn">Количество столбцов двумерного массива</param>
-    private static void Generate(out int[,] matrInts, uint sizeRow, uint sizeColumn)
+    private static void GenerateArray(out int[,] matrInts)
     {
+        Console.Write("Введите количество строк в матрице: ");
+        ReadInt(out int sizeRow);
+        Console.Write("Введите количество столбцов в матрице: ");
+        ReadInt(out int sizeColumn);
         matrInts = new int[sizeRow, sizeColumn];
 
         Random generator = new();
         for (int i = 0; i < sizeRow; i++)
             for (int j = 0; j < sizeColumn; j++)
-                matrInts[i, j] = generator.Next(-2, 2);
+                matrInts[i, j] = generator.Next(-100, 101);
 
         Console.WriteLine("Матрица успешно сформирована");
         if (matrInts.Length == 0)
@@ -165,21 +185,20 @@ internal static class Program
     }
 
     /// <summary>
-    ///     Вывод двумерного массива <see cref="T:System.Int32" /> значений в консоль.
+    ///     Вывод двумерного массива <see cref="T:System.Int32" /> значений в консоль
     /// </summary>
-    /// <param name="matrInts">Двумерный массив</param>
-    private static void Write(int[,] matrInts)
+    private static void WriteArray(int[,] matrInts)
     {
         if (matrInts.Length > 0)
             for (int i = 0; i < matrInts.GetLength(0); i++)
             {
                 for (int j = 0; j < matrInts.GetLength(1); j++)
-                    Console.Write($"{matrInts[i, j],4} ");
+                    Console.Write($"{matrInts[i, j],5}");
 
                 Console.WriteLine();
             }
         else
-            Console.WriteLine("Массив не содержит элементов");
+            Console.WriteLine("Матрица не содержит элементов");
     }
 
     /// <summary>
@@ -198,6 +217,7 @@ internal static class Program
             else if (j > indexColumn)
                 for (int i = 0; i < matrInts.GetLength(0); i++)
                     resMatrInts[i, j - 1] = matrInts[i, j];
+
         return resMatrInts;
     }
 
@@ -206,7 +226,7 @@ internal static class Program
     ///     все столбцы, содержащие хотя бы один 0
     /// </summary>
     /// <param name="matrInts">Двумерный массив</param>
-    private static int[,] DeleteColumnContainsZero(this int[,] matrInts)
+    private static int[,] DeleteColumnsContainZero(this int[,] matrInts)
     {
         for (int j = 0; j < matrInts.GetLength(1); j++)
             for (int i = 0; i < matrInts.GetLength(0); i++)
@@ -221,6 +241,93 @@ internal static class Program
             }
 
         return matrInts;
+    }
+
+    #endregion
+
+    #region Рваный массив
+
+    /// <summary>
+    ///     Ручной ввод элементов рваного массива <see cref="T:System.Int32" /> значений
+    /// </summary>
+    private static void ReadArray(out int[][] jaggedArrInts)
+    {
+        Console.Write("Введите количество строк в массиве: ");
+        ReadInt(out int sizeRow);
+
+        jaggedArrInts = new int[sizeRow][];
+        for (int i = 0; i < sizeRow; i++)
+        {
+            Console.Write($"Введите количество ячеек в строке №{i + 1}: ");
+            ReadInt(out int sizeColumn);
+            jaggedArrInts[i] = new int[sizeColumn];
+            for (int j = 0; j < sizeColumn; j++)
+            {
+                Console.Write($"Введите элемент в {i + 1} строке в {j + 1} ячейке: ");
+                ReadInt(out jaggedArrInts[i][j]);
+            }
+        }
+
+        Console.WriteLine("Массив успешно сформирован");
+        if (jaggedArrInts.Length == 0)
+            Console.WriteLine("Массив не содержит элементов");
+    }
+
+    /// <summary>
+    ///     Генерация элементов <see cref="T:System.Int32" /> значений
+    ///     рваного массива с помощью датчика случайных чисел
+    /// </summary>
+    private static void GenerateArray(out int[][] jaggedArrInts)
+    {
+        Random generator = new();
+
+        Console.Write("Введите количество строк в массиве: ");
+        ReadInt(out int sizeRow);
+
+        jaggedArrInts = new int[sizeRow][];
+        for (int i = 0; i < sizeRow; i++)
+        {
+            Console.Write($"Введите количество ячеек в строке №{i + 1}: ");
+            ReadInt(out int sizeColumn);
+            jaggedArrInts[i] = new int[sizeColumn];
+            for (int j = 0; j < sizeColumn; j++)
+                jaggedArrInts[i][j] = generator.Next(-100, 101);
+        }
+
+        Console.WriteLine("Массив успешно сформирован");
+        if (jaggedArrInts.Length == 0)
+            Console.WriteLine("Массив не содержит элементов");
+    }
+
+    /// <summary>
+    ///     Вывод рваного массива <see cref="T:System.Int32" /> значений в консоль
+    /// </summary>
+    private static void WriteArray(int[][] jaggedArrInts)
+    {
+        if (jaggedArrInts.Length > 0)
+            foreach (int[] row in jaggedArrInts)
+                WriteArray(row);
+        else
+            Console.WriteLine("Массив не содержит элементов");
+    }
+
+    /// <summary>
+    ///     Добавляет в рваный массив одномерный массив чисел
+    ///     <see cref="T:System.Int32" /> значений на место указанного индекса
+    /// </summary>
+    /// <param name="jaggedArrInts">Исходный рваный массив</param>
+    /// <param name="addArrInts">Дополнительный одномерный массив</param>
+    /// <param name="index">Индекс места вставки</param>
+    /// <returns></returns>
+    private static int[][] Append(this int[][] jaggedArrInts, int[] addArrInts, int index)
+    {
+        Array.Resize(ref jaggedArrInts, jaggedArrInts.Length + 1);
+        Array.Copy(jaggedArrInts, index,
+                   jaggedArrInts, index + 1,
+                   jaggedArrInts.Length - index - 1);
+        jaggedArrInts[index] = addArrInts;
+
+        return jaggedArrInts;
     }
 
     #endregion
