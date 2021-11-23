@@ -22,6 +22,14 @@ internal static class Program
         WriteArray(jaggedArr);
     }
 
+    #region Литерные строки сообщений
+
+    private const string InpMsgUint         = "Введите целое неотрицательное число – ";
+    private const string OutMsgArraySuccess = "Массив успешно сформирован";
+    private const string OutMsgArrayEmpty   = "Массив не содержит элементов";
+
+    #endregion
+
     #region Дополнительные функции
 
     /// <summary>
@@ -62,45 +70,35 @@ internal static class Program
     /// <summary>
     ///     Вывод сообщений после формирования массивов или матриц
     /// </summary>
-    /// <param name="param">Параметр, отвечающий за размер массива или матрицы</param>
-    /// <param name="msgSuccess">Сообщение об успешном формировании (необязательно)</param>
-    /// <param name="msgEmpty">Сообщение о том, что массив или матрица пусты (необязательно)</param>
-    private static void FinalMessage(int    param,
-                                     string msgSuccess = "Массив успешно сформирован",
-                                     string msgEmpty   = "Массив не содержит элементов")
+    /// <param name="param">Параметр, отвечающий за размер массива</param>
+    private static void FinalMessage(int param)
     {
-        Console.WriteLine(msgSuccess);
+        Console.WriteLine(OutMsgArraySuccess);
         if (param == 0)
-            Console.WriteLine(msgEmpty);
+            Console.WriteLine(OutMsgArrayEmpty);
     }
 
     /// <summary>
     ///     Вывод сообщений после формирования массивов или матриц
     /// </summary>
     /// <param name="param">Параметр, отвечающий за размер массива или матрицы</param>
-    /// <param name="msgSuccess">Сообщение об успешном формировании (необязательно)</param>
-    /// <param name="msgEmpty">Сообщение о том, что массив или матрица пусты (необязательно)</param>
-    private static void FinalMessage(uint   param,
-                                     string msgSuccess = "Массив успешно сформирован",
-                                     string msgEmpty   = "Массив не содержит элементов")
+    private static void FinalMessage(uint   param)
     {
-        Console.WriteLine(msgSuccess);
+        Console.WriteLine(OutMsgArraySuccess);
         if (param == 0)
-            Console.WriteLine(msgEmpty);
+            Console.WriteLine(OutMsgArrayEmpty);
     }
 
     #endregion
 
     #region Одномерный массив
 
-    private const string InpMsg = "Введите целое неотрицательное число – размер массива: ";
-
     /// <summary>
     ///     Ручной ввод элементов массива <see cref="T:System.Int32" /> значений
     /// </summary>
     private static void ReadArray(out int[] arrayInts)
     {
-        ReadUint(out uint sizeArray, InpMsg);
+        ReadUint(out uint sizeArray, $"{InpMsgUint}размер массива: ");
         arrayInts = new int[sizeArray];
 
         for (int i = 0; i < sizeArray; i++)
@@ -116,7 +114,7 @@ internal static class Program
     /// </summary>
     private static void GenerateArray(out int[] arrayInts)
     {
-        ReadUint(out uint sizeArray, InpMsg);
+        ReadUint(out uint sizeArray, $"{InpMsgUint}размер массива: ");
         arrayInts = new int[sizeArray];
         Random generator = new();
 
@@ -139,7 +137,7 @@ internal static class Program
         }
         else
         {
-            Console.WriteLine("Массив не содержит элементов");
+            Console.WriteLine(OutMsgArrayEmpty);
         }
     }
 
@@ -183,28 +181,23 @@ internal static class Program
 
     #region Двумерный массив
 
-    private const string InpMsgSizeRow     = "Введите целое неотрицательное число – количество строк матрицы: ";
-    private const string InpMsgSizeColumn  = "Введите целое неотрицательное число – количество столбцов матрицы: ";
-    private const string OutMsgMatrSuccess = "Матрица успешно сформирована";
-    private const string OutMsgMatrEmpty   = "Матрица не содержит элементов";
-
     /// <summary>
     ///     Ручной ввод элементов двумерного массива
     ///     <see cref="T:System.Int32" /> значений
     /// </summary>
     private static void ReadArray(out int[,] matrInts)
     {
-        ReadUint(out uint sizeRow,    InpMsgSizeRow);
-        ReadUint(out uint sizeColumn, InpMsgSizeColumn);
-        matrInts = new int[sizeRow, sizeColumn];
+        ReadUint(out uint countOfRows,    $"{InpMsgUint}количество строк двумерного массива (матрицы): ");
+        ReadUint(out uint countOfColumns, $"{InpMsgUint}количество столбцов двумерного массива (матрицы): ");
+        matrInts = new int[countOfRows, countOfColumns];
 
-        for (int i = 0; i < sizeRow; i++)
-            for (int j = 0; j < sizeColumn; j++)
+        for (int i = 0; i < countOfRows; i++)
+            for (int j = 0; j < countOfColumns; j++)
                 ReadInt(out matrInts[i, j],
                         "Введите целое число – элемент" +
                         $" в [{i + 1}, {j + 1}] ячейке: ");
 
-        FinalMessage(matrInts.Length, OutMsgMatrSuccess, OutMsgMatrEmpty);
+        FinalMessage(matrInts.Length);
     }
 
     /// <summary>
@@ -214,16 +207,16 @@ internal static class Program
     /// </summary>
     private static void GenerateArray(out int[,] matrInts)
     {
-        ReadUint(out uint sizeRow,    InpMsgSizeRow);
-        ReadUint(out uint sizeColumn, InpMsgSizeColumn);
-        matrInts = new int[sizeRow, sizeColumn];
+        ReadUint(out uint countOfRows,    $"{InpMsgUint}количество строк двумерного массива (матрицы): ");
+        ReadUint(out uint countOfColumns, $"{InpMsgUint}количество столбцов двумерного массива (матрицы): ");
+        matrInts = new int[countOfRows, countOfColumns];
 
         Random generator = new();
-        for (int i = 0; i < sizeRow; i++)
-            for (int j = 0; j < sizeColumn; j++)
+        for (int i = 0; i < countOfRows; i++)
+            for (int j = 0; j < countOfColumns; j++)
                 matrInts[i, j] = generator.Next(-100, 101);
 
-        FinalMessage(matrInts.Length, OutMsgMatrSuccess, OutMsgMatrEmpty);
+        FinalMessage(matrInts.Length);
     }
 
     /// <summary>
@@ -239,7 +232,7 @@ internal static class Program
                 Console.WriteLine();
             }
         else
-            Console.WriteLine(OutMsgMatrEmpty);
+            Console.WriteLine(OutMsgArrayEmpty);
     }
 
     /// <summary>
@@ -288,22 +281,19 @@ internal static class Program
 
     #region Рваный массив
 
-    private const string InpMsgCount = "Введите целое неотрицательное число" +
-                                       " – количество ";
-
     /// <summary>
     ///     Ручной ввод элементов рваного массива <see cref="T:System.Int32" /> значений
     /// </summary>
     private static void ReadArray(out int[][] jaggedArrInts)
     {
-        ReadUint(out uint sizeRow, $"{InpMsgCount}строк рваного массива: ");
-        jaggedArrInts = new int[sizeRow][];
+        ReadUint(out uint countOfRows, $"{InpMsgUint}количество строк рваного массива: ");
+        jaggedArrInts = new int[countOfRows][];
 
-        for (int i = 0; i < sizeRow; i++)
+        for (int i = 0; i < countOfRows; i++)
         {
-            ReadUint(out uint sizeColumn, $"{InpMsgCount}ячеек в {i + 1} строке: ");
-            jaggedArrInts[i] = new int[sizeColumn];
-            for (int j = 0; j < sizeColumn; j++)
+            ReadUint(out uint countOfCells, $"{InpMsgUint}количество ячеек в {i + 1} строке: ");
+            jaggedArrInts[i] = new int[countOfCells];
+            for (int j = 0; j < countOfCells; j++)
                 ReadInt(out jaggedArrInts[i][j],
                         $"Введите элемент – целое число в {j + 1} ячейку: ");
         }
@@ -318,14 +308,14 @@ internal static class Program
     private static void GenerateArray(out int[][] jaggedArrInts)
     {
         Random generator = new();
-        ReadUint(out uint sizeRow, $"{InpMsgCount}строк рваного массива: ");
+        ReadUint(out uint countOfRows, $"{InpMsgUint}количество строк рваного массива: ");
 
-        jaggedArrInts = new int[sizeRow][];
-        for (int i = 0; i < sizeRow; i++)
+        jaggedArrInts = new int[countOfRows][];
+        for (int i = 0; i < countOfRows; i++)
         {
-            ReadUint(out uint sizeColumn, $"{InpMsgCount}ячеек в {i + 1} строке: ");
-            jaggedArrInts[i] = new int[sizeColumn];
-            for (int j = 0; j < sizeColumn; j++)
+            ReadUint(out uint countOfCells, $"{InpMsgUint}количество ячеек в {i + 1} строке: ");
+            jaggedArrInts[i] = new int[countOfCells];
+            for (int j = 0; j < countOfCells; j++)
                 jaggedArrInts[i][j] = generator.Next(-100, 101);
         }
 
@@ -341,7 +331,7 @@ internal static class Program
             foreach (int[] row in jaggedArrInts)
                 WriteArray(row);
         else
-            Console.WriteLine("Массив не содержит элементов");
+            Console.WriteLine(OutMsgArrayEmpty);
     }
 
     /// <summary>
