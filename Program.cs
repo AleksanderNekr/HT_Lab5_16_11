@@ -200,7 +200,6 @@ internal static class Program
     private static int[,] DeleteColWithZero(this int[,] matrInts)
     {
         for (var j = 0; j < matrInts.GetLength(1); j++)
-        {
             for (var i = 0; i < matrInts.GetLength(0); i++)
             {
                 if (j >= matrInts.GetLength(1) || matrInts[i, j] != 0)
@@ -208,7 +207,6 @@ internal static class Program
                 matrInts = matrInts.DeleteColumn(j);
                 i = -1;
             }
-        }
 
         return matrInts;
     }
