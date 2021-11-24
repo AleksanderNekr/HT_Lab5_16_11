@@ -6,6 +6,8 @@ internal static class Program
 {
     private static void Main()
     {
+        MainMenu();
+
         // Тип значений, допускающий значение NULL, или T?,
         // представляет все значения своего базового типа значения T,
         // а также дополнительное значение NULL
@@ -21,6 +23,116 @@ internal static class Program
         jaggedArr = jaggedArr.Append(newArr, 4);
         WriteArray(jaggedArr);
     }
+
+    #region Меню
+
+    private static void MainMenu()
+    {
+        int[]   arr    = Array.Empty<int>();
+        int[,]  matr   = new int[0, 0];
+        int[][] jagArr = Array.Empty<int[]>();
+
+        while (true)
+        {
+            Console.Write("Выберите, с каким из"                          +
+                          " следующих видов массивов вы хотите работать:" +
+                          "1. Одномерный массив\n2. Двумерный массив\n"   +
+                          "3. Рваный массив\n4. Завершить выполнение"     +
+                          " программы\n\nВаш выбор: ");
+
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    MenuArr(ref arr);
+                    break;
+                case "2":
+//                    TODO
+                    break;
+                case "3":
+//                    TODO
+                    break;
+                case "4":
+                    return;
+                default:
+                    Console.WriteLine("Введен неизвестный символ! Введите заново");
+                    break;
+            }
+        }
+    }
+
+    private static void MenuArr(ref int[] arrInts)
+    {
+        while (true)
+        {
+            Console.Write("Вы выбрали работу с одномерными массивами\n" +
+                          "Выберите, что сделать:\n1. Создать массив\n" +
+                          "2. Вывести массив на экран\n3. Добавить по"  +
+                          " К элементов в начало и в конец массива\n"   +
+                          "4. Вернуться в главное меню\n\nВаш выбор: ");
+
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine("Вы выбрали создать массив");
+                    MenuCreateArr(ref arrInts);
+                    break;
+                case "2":
+                    Console.WriteLine("Вы выбрали вывести массив на экран");
+                    WriteArray(arrInts);
+                    break;
+                case "3":
+                    Console.WriteLine("Вы выбрали добавить по К элементов" +
+                                      " в начало и в конец массива");
+//                    TODO
+                    break;
+                case "4":
+                    Console.WriteLine("Вы выбрали вернуться в главное меню");
+                    return;
+                default:
+                    Console.WriteLine("Введен неизвестный символ! Введите заново");
+                    break;
+            }
+        }
+    }
+
+    // Используется ref для возможности возврата в предыдущее меню,
+    // не перезаписывая массив
+    private static void MenuCreateArr(ref int[] arrayInts)
+    {
+        while (true)
+        {
+            Console.Write("Выберите, что сделать:\n"             +
+                          "1. Ввести элементы вручную\n"         +
+                          "2. Сгенерировать элементы"            +
+                          " с помощью датчика случайных чисел\n" +
+                          "3. Вернуться в предыдущее меню\n\n"   +
+                          "Ваш выбор: ");
+
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    ReadArray(out arrayInts);
+                    break;
+                case "2":
+                    GenerateArray(out arrayInts);
+                    break;
+                case "3":
+                    return;
+                default:
+                    Console.WriteLine("Введен неизвестный символ!" +
+                                      " Введите заново");
+                    break;
+            }
+        }
+    }
+
+    #endregion
 
     #region Литерные строки сообщений
 
