@@ -8,20 +8,20 @@ internal static class Program
     {
         MainMenu();
 
-        // Тип значений, допускающий значение NULL, или T?,
-        // представляет все значения своего базового типа значения T,
-        // а также дополнительное значение NULL
-        GenerateArray(out int[,]? arr);
-        WriteArray(arr);
-        Console.WriteLine();
-        arr = arr.DeleteColumnsContainZero();
-        WriteArray(arr);
-        GenerateArray(out int[][] jaggedArr);
-        WriteArray(jaggedArr);
-        Console.WriteLine();
-        int[] newArr = { 1, 2, 3, 4 };
-        jaggedArr = jaggedArr.Append(newArr, 4);
-        WriteArray(jaggedArr);
+//        // Тип значений, допускающий значение NULL, или T?,
+//        // представляет все значения своего базового типа значения T,
+//        // а также дополнительное значение NULL
+//        GenerateArray(out int[,]? arr);
+//        WriteArray(arr);
+//        Console.WriteLine();
+//        arr = arr.DeleteColumnsContainZero();
+//        WriteArray(arr);
+//        GenerateArray(out int[][] jaggedArr);
+//        WriteArray(jaggedArr);
+//        Console.WriteLine();
+//        int[] newArr = { 1, 2, 3, 4 };
+//        jaggedArr = jaggedArr.Append(newArr, 4);
+//        WriteArray(jaggedArr);
     }
 
     #region Меню
@@ -34,10 +34,10 @@ internal static class Program
 
         while (true)
         {
-            Console.Write("Выберите, с каким из"                          +
-                          " следующих видов массивов вы хотите работать:" +
-                          "1. Одномерный массив\n2. Двумерный массив\n"   +
-                          "3. Рваный массив\n4. Завершить выполнение"     +
+            Console.Write("Выберите, с каким из"                            +
+                          " следующих видов массивов вы хотите работать:\n" +
+                          "1. Одномерный массив\n2. Двумерный массив\n"     +
+                          "3. Рваный массив\n4. Завершить выполнение"       +
                           " программы\n\nВаш выбор: ");
 
             string? choice = Console.ReadLine();
@@ -54,6 +54,7 @@ internal static class Program
 //                    TODO
                     break;
                 case "4":
+                    Console.WriteLine("Завершение программы...");
                     return;
                 default:
                     Console.WriteLine("Введен неизвестный символ! Введите заново");
@@ -66,10 +67,10 @@ internal static class Program
     {
         while (true)
         {
-            Console.Write("Вы выбрали работу с одномерными массивами\n" +
-                          "Выберите, что сделать:\n1. Создать массив\n" +
-                          "2. Вывести массив на экран\n3. Добавить по"  +
-                          " К элементов в начало и в конец массива\n"   +
+            Console.Write("\nВы выбрали работу с одномерными массивами\n" +
+                          "Выберите, что сделать:\n1. Создать массив\n"   +
+                          "2. Вывести массив на экран\n3. Добавить "      +
+                          "элементы в начало и в конец массива\n"         +
                           "4. Вернуться в главное меню\n\nВаш выбор: ");
 
             string? choice = Console.ReadLine();
@@ -77,23 +78,36 @@ internal static class Program
             switch (choice)
             {
                 case "1":
-                    Console.WriteLine("Вы выбрали создать массив");
+                    Console.WriteLine("\nВы выбрали создать массив");
                     MenuCreateArr(ref arrInts);
                     break;
                 case "2":
-                    Console.WriteLine("Вы выбрали вывести массив на экран");
+                    Console.WriteLine("\nВы выбрали вывести массив на экран");
                     WriteArray(arrInts);
                     break;
                 case "3":
-                    Console.WriteLine("Вы выбрали добавить по К элементов" +
+                    Console.WriteLine("\nВы выбрали добавить элементы" +
                                       " в начало и в конец массива");
-//                    TODO
+
+                    int[] arrAdd = Array.Empty<int>();
+
+                    Console.WriteLine("\nФормирование массива элементов," +
+                                      " добавляемых в НАЧАЛО массива");
+                    MenuCreateArr(ref arrAdd);
+                    arrInts = arrInts.Append(arrAdd);
+
+                    Console.WriteLine("\nФормирование массива элементов," +
+                                      " добавляемых в КОНЕЦ массива");
+                    MenuCreateArr(ref arrAdd);
+                    arrInts = arrInts.Append(arrAdd, arrInts.Length);
+
+                    Console.WriteLine("\nЭлементы успешно добавлены!");
                     break;
                 case "4":
-                    Console.WriteLine("Вы выбрали вернуться в главное меню");
+                    Console.WriteLine("\nВы выбрали вернуться в главное меню");
                     return;
                 default:
-                    Console.WriteLine("Введен неизвестный символ! Введите заново");
+                    Console.WriteLine("\nВведен неизвестный символ! Введите заново");
                     break;
             }
         }
@@ -101,7 +115,7 @@ internal static class Program
 
     // Используется ref для возможности возврата в предыдущее меню,
     // не перезаписывая массив
-    private static void MenuCreateArr(ref int[] arrayInts)
+    private static void MenuCreateArr(ref int[] arrayInts, string msgInput = "")
     {
         while (true)
         {
@@ -117,11 +131,14 @@ internal static class Program
             switch (choice)
             {
                 case "1":
+                    Console.WriteLine("Выбрано ввести элементы массива вручную");
                     ReadArray(out arrayInts);
-                    break;
+                    return;
                 case "2":
+                    Console.WriteLine("Выбрано сгенерировать элементы массива " +
+                                      "с помощью датчика случайных чисел");
                     GenerateArray(out arrayInts);
-                    break;
+                    return;
                 case "3":
                     return;
                 default:
@@ -147,9 +164,8 @@ internal static class Program
     /// <summary>
     ///     Ввод числа типа <see cref="T:System.Int32" />
     /// </summary>
-    private static void ReadInt(out int intNum, string message = "Введите целое число: ")
+    private static void ReadInt(out int intNum)
     {
-        Console.Write(message);
         bool isConvert;
         do
         {
@@ -163,11 +179,8 @@ internal static class Program
     ///     Ввод числа типа <see cref="T:System.UInt32" />
     /// </summary>
     /// <param name="uintNum">Число</param>
-    /// <param name="message">Необязательное сообщение при вводе</param>
-    private static void ReadUint(out uint uintNum,
-                                 string   message = "Введите целое неотрицательное число: ")
+    private static void ReadUint(out uint uintNum)
     {
-        Console.Write(message);
         bool isConvert;
         do
         {
@@ -179,29 +192,6 @@ internal static class Program
         } while (!isConvert);
     }
 
-
-    /// <summary>
-    ///     Вывод сообщений после формирования массивов или матриц
-    /// </summary>
-    /// <param name="param">Параметр, отвечающий за размер массива</param>
-    private static void FinalMessage(int param)
-    {
-        Console.WriteLine(OutMsgArraySuccess);
-        if (param == 0)
-            Console.WriteLine(OutMsgArrayEmpty);
-    }
-
-    /// <summary>
-    ///     Вывод сообщений после формирования массивов или матриц
-    /// </summary>
-    /// <param name="param">Параметр, отвечающий за размер массива или матрицы</param>
-    private static void FinalMessage(uint param)
-    {
-        Console.WriteLine(OutMsgArraySuccess);
-        if (param == 0)
-            Console.WriteLine(OutMsgArrayEmpty);
-    }
-
     #endregion
 
     #region Одномерный массив
@@ -211,13 +201,17 @@ internal static class Program
     /// </summary>
     private static void ReadArray(out int[] arrayInts)
     {
-        ReadUint(out uint sizeArray, $"{InpMsgCountOf}элементов в массиве: ");
+        Console.Write($"{InpMsgCountOf}элементов: ");
+        ReadUint(out uint sizeArray);
         arrayInts = new int[sizeArray];
 
         for (int i = 0; i < sizeArray; i++)
-            ReadInt(out arrayInts[i], $"Введите {i + 1} элемент: ");
+        {
+            Console.Write($"Введите целое число – {i + 1} элемент: ");
+            ReadInt(out arrayInts[i]);
+        }
 
-        FinalMessage(sizeArray);
+        Console.WriteLine(OutMsgArraySuccess);
     }
 
     /// <summary>
@@ -227,14 +221,16 @@ internal static class Program
     /// </summary>
     private static void GenerateArray(out int[] arrayInts)
     {
-        ReadUint(out uint sizeArray, $"{InpMsgCountOf}элементов в массиве: ");
+        Console.Write($"{InpMsgCountOf}элементов: ");
+        ReadUint(out uint sizeArray);
         arrayInts = new int[sizeArray];
         Random generator = new();
 
         for (int i = 0; i < sizeArray; i++)
             arrayInts[i] = generator.Next(-100, 101);
 
-        FinalMessage(sizeArray);
+        Console.WriteLine(OutMsgArraySuccess);
+        WriteArray(arrayInts);
     }
 
     /// <summary>
@@ -255,24 +251,6 @@ internal static class Program
     }
 
     /// <summary>
-    ///     Вставляет число типа <see cref="T:System.Int32" /> в массив
-    ///     <see cref="T:System.Int32" /> значений
-    /// </summary>
-    /// <param name="arrayInts">Массив</param>
-    /// <param name="element">Вставляемое число</param>
-    /// <param name="index">Индекс в массиве для вставляемого числа</param>
-    private static int[] Append(this int[] arrayInts, int element, int index)
-    {
-        Array.Resize(ref arrayInts, arrayInts.Length + 1);
-        Array.Copy(arrayInts, index,
-                   arrayInts, index + 1,
-                   arrayInts.Length - index - 1);
-        arrayInts[index] = element;
-
-        return arrayInts;
-    }
-
-    /// <summary>
     ///     Вставляет массив чисел типа <see cref="T:System.Int32" />
     ///     в массив <see cref="T:System.Int32" /> значений
     /// </summary>
@@ -284,8 +262,13 @@ internal static class Program
     /// </param>
     private static int[] Append(this int[] arrayInts, int[] arrayIntsAdd, int index = 0)
     {
-        foreach (int element in arrayIntsAdd)
-            arrayInts = arrayInts.Append(element, index);
+        Array.Resize(ref arrayInts, arrayInts.Length + arrayIntsAdd.Length);
+        Array.Copy(arrayInts, index,
+                   arrayInts, index + arrayIntsAdd.Length,
+                   arrayInts.Length - index - arrayIntsAdd.Length);
+
+        for (int i = index; i < arrayIntsAdd.Length + index; i++)
+            arrayInts[i] = arrayIntsAdd[i - index];
 
         return arrayInts;
     }
@@ -300,17 +283,21 @@ internal static class Program
     /// </summary>
     private static void ReadArray(out int[,] matrInts)
     {
-        ReadUint(out uint countOfRows,    $"{InpMsgCountOf}строк двумерного массива (матрицы): ");
-        ReadUint(out uint countOfColumns, $"{InpMsgCountOf}столбцов двумерного массива (матрицы): ");
+        Console.Write($"{InpMsgCountOf}строк двумерного массива (матрицы): ");
+        ReadUint(out uint countOfRows);
+        Console.Write($"{InpMsgCountOf}столбцов двумерного массива (матрицы): ");
+        ReadUint(out uint countOfColumns);
         matrInts = new int[countOfRows, countOfColumns];
 
         for (int i = 0; i < countOfRows; i++)
             for (int j = 0; j < countOfColumns; j++)
-                ReadInt(out matrInts[i, j],
-                        "Введите целое число – элемент" +
-                        $" в [{i + 1}, {j + 1}] ячейке: ");
+            {
+                Console.Write("Введите целое число – элемент" +
+                              $" в [{i + 1}, {j + 1}] ячейке: ");
+                ReadInt(out matrInts[i, j]);
+            }
 
-        FinalMessage(matrInts.Length);
+        Console.WriteLine(OutMsgArraySuccess);
     }
 
     /// <summary>
@@ -320,8 +307,10 @@ internal static class Program
     /// </summary>
     private static void GenerateArray(out int[,] matrInts)
     {
-        ReadUint(out uint countOfRows,    $"{InpMsgCountOf}строк двумерного массива (матрицы): ");
-        ReadUint(out uint countOfColumns, $"{InpMsgCountOf}столбцов двумерного массива (матрицы): ");
+        Console.Write($"{InpMsgCountOf}строк двумерного массива (матрицы): ");
+        ReadUint(out uint countOfRows);
+        Console.WriteLine($"{InpMsgCountOf}столбцов двумерного массива (матрицы): ");
+        ReadUint(out uint countOfColumns);
         matrInts = new int[countOfRows, countOfColumns];
 
         Random generator = new();
@@ -329,7 +318,8 @@ internal static class Program
             for (int j = 0; j < countOfColumns; j++)
                 matrInts[i, j] = generator.Next(-100, 101);
 
-        FinalMessage(matrInts.Length);
+        Console.WriteLine(OutMsgArraySuccess);
+        WriteArray(matrInts);
     }
 
     /// <summary>
@@ -399,19 +389,23 @@ internal static class Program
     /// </summary>
     private static void ReadArray(out int[][] jaggedArrInts)
     {
-        ReadUint(out uint countOfRows, $"{InpMsgCountOf}строк рваного массива: ");
+        Console.Write($"{InpMsgCountOf}строк рваного массива: ");
+        ReadUint(out uint countOfRows);
         jaggedArrInts = new int[countOfRows][];
 
         for (int i = 0; i < countOfRows; i++)
         {
-            ReadUint(out uint countOfCells, $"{InpMsgCountOf}ячеек в {i + 1} строке: ");
+            Console.Write($"{InpMsgCountOf}ячеек в {i + 1} строке: ");
+            ReadUint(out uint countOfCells);
             jaggedArrInts[i] = new int[countOfCells];
             for (int j = 0; j < countOfCells; j++)
-                ReadInt(out jaggedArrInts[i][j],
-                        $"Введите элемент – целое число в {j + 1} ячейку: ");
+            {
+                Console.Write($"Введите элемент – целое число в {j + 1} ячейку: ");
+                ReadInt(out jaggedArrInts[i][j]);
+            }
         }
 
-        FinalMessage(jaggedArrInts.Length);
+        Console.WriteLine(OutMsgArraySuccess);
     }
 
     /// <summary>
@@ -421,18 +415,21 @@ internal static class Program
     private static void GenerateArray(out int[][] jaggedArrInts)
     {
         Random generator = new();
-        ReadUint(out uint countOfRows, $"{InpMsgCountOf}строк рваного массива: ");
+        Console.Write($"{InpMsgCountOf}строк рваного массива: ");
+        ReadUint(out uint countOfRows);
 
         jaggedArrInts = new int[countOfRows][];
         for (int i = 0; i < countOfRows; i++)
         {
-            ReadUint(out uint countOfCells, $"{InpMsgCountOf}ячеек в {i + 1} строке: ");
+            Console.Write($"{InpMsgCountOf}ячеек в {i + 1} строке: ");
+            ReadUint(out uint countOfCells);
             jaggedArrInts[i] = new int[countOfCells];
             for (int j = 0; j < countOfCells; j++)
                 jaggedArrInts[i][j] = generator.Next(-100, 101);
         }
 
-        FinalMessage(jaggedArrInts.Length);
+        Console.WriteLine(OutMsgArraySuccess);
+        WriteArray(jaggedArrInts);
     }
 
     /// <summary>
