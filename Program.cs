@@ -292,6 +292,7 @@ internal static class Program
         }
 
         Console.WriteLine(OutMsgArraySuccess);
+        WriteArray(arrayInts);
     }
 
     /// <summary>
@@ -307,7 +308,7 @@ internal static class Program
         Random generator = new();
 
         for (int i = 0; i < sizeArray; i++)
-            arrayInts[i] = generator.Next(-100, 101);
+            arrayInts[i] = generator.Next(-50, 51);
 
         Console.WriteLine(OutMsgArraySuccess);
         WriteArray(arrayInts);
@@ -326,7 +327,7 @@ internal static class Program
         }
         else
         {
-            Console.WriteLine(OutMsgArrayEmpty);
+            Console.WriteLine("\n" + OutMsgArrayEmpty);
         }
     }
 
@@ -378,6 +379,7 @@ internal static class Program
             }
 
         Console.WriteLine(OutMsgArraySuccess);
+        WriteArray(matrInts);
     }
 
     /// <summary>
@@ -389,14 +391,14 @@ internal static class Program
     {
         Console.Write($"{InpMsgCountOf}строк двумерного массива (матрицы): ");
         ReadUint(out uint countOfRows);
-        Console.WriteLine($"{InpMsgCountOf}столбцов двумерного массива (матрицы): ");
+        Console.Write($"{InpMsgCountOf}столбцов двумерного массива (матрицы): ");
         ReadUint(out uint countOfColumns);
         matrInts = new int[countOfRows, countOfColumns];
 
         Random generator = new();
         for (int i = 0; i < countOfRows; i++)
             for (int j = 0; j < countOfColumns; j++)
-                matrInts[i, j] = generator.Next(-100, 101);
+                matrInts[i, j] = generator.Next(-5, 5);
 
         Console.WriteLine(OutMsgArraySuccess);
         WriteArray(matrInts);
@@ -415,7 +417,7 @@ internal static class Program
                 Console.WriteLine();
             }
         else
-            Console.WriteLine(OutMsgArrayEmpty);
+            Console.WriteLine("\n" + OutMsgArrayEmpty);
     }
 
     /// <summary>
@@ -450,6 +452,8 @@ internal static class Program
             // Переменная-счетчик удалений
             int deleteCounter = 0;
 
+            string numbersStr = "";
+
             for (int j = 0; j < matrInts.GetLength(1); j++)
                 for (int i = 0; i < matrInts.GetLength(0); i++)
                 {
@@ -460,15 +464,23 @@ internal static class Program
                     // Удаление произошло
                     deleteCounter++;
 
+                    // Накапливаем номера удаленных столбцов для вывода
+                    numbersStr = numbersStr.Insert(numbersStr.Length, j + deleteCounter + ", ");
+
                     // Приравниваем -1, так как в цикле for призойдет инкремент на 1,
                     // а нужно проверять с элемента с индексом 0
                     i = -1;
                 }
 
+            // Удаляем 2 последних лишних символа (", ")
+            numbersStr = deleteCounter > 0
+                             ? numbersStr.Remove(numbersStr.Length - 2, 2)
+                             : numbersStr;
+
             Console.WriteLine(deleteCounter > 0
                                   ? deleteCounter != 1
-                                        ? "\nСтолбцы успешно удалены!"
-                                        : "\nСтолбец успешно удален!"
+                                        ? $"\nСтолбцы с номерами {numbersStr} успешно удалены!"
+                                        : $"\nСтолбец №{numbersStr} успешно удален!"
                                   : "\nВ матрице нет нулевых элементов!");
         }
         else
@@ -505,6 +517,7 @@ internal static class Program
         }
 
         Console.WriteLine(OutMsgArraySuccess);
+        WriteArray(jaggedArrInts);
     }
 
     /// <summary>
@@ -524,7 +537,7 @@ internal static class Program
             ReadUint(out uint countOfCells);
             jaggedArrInts[i] = new int[countOfCells];
             for (int j = 0; j < countOfCells; j++)
-                jaggedArrInts[i][j] = generator.Next(-100, 101);
+                jaggedArrInts[i][j] = generator.Next(-50, 51);
         }
 
         Console.WriteLine(OutMsgArraySuccess);
@@ -540,7 +553,7 @@ internal static class Program
             foreach (int[] row in jaggedArrInts)
                 WriteArray(row);
         else
-            Console.WriteLine(OutMsgArrayEmpty);
+            Console.WriteLine("\n" + OutMsgArrayEmpty);
     }
 
     /// <summary>
