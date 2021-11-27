@@ -48,7 +48,7 @@ internal static class Program
                     MenuArr(ref arr);
                     break;
                 case "2":
-//                    TODO
+                    MenuMatr(ref matr);
                     break;
                 case "3":
 //                    TODO
@@ -63,6 +63,10 @@ internal static class Program
         }
     }
 
+    /// <summary>
+    ///     Меню для одномерного массива <see cref="T:System.Int32" /> значений
+    /// </summary>
+    /// <param name="arrInts">Массив</param>
     private static void MenuArr(ref int[] arrInts)
     {
         while (true)
@@ -79,7 +83,7 @@ internal static class Program
             {
                 case "1":
                     Console.WriteLine("\nВы выбрали создать массив");
-                    MenuCreateArr(ref arrInts);
+                    MenuArrCreate(ref arrInts);
                     break;
                 case "2":
                     Console.WriteLine("\nВы выбрали вывести массив на экран");
@@ -93,12 +97,12 @@ internal static class Program
 
                     Console.WriteLine("\nФормирование массива элементов," +
                                       " добавляемых в НАЧАЛО массива");
-                    MenuCreateArr(ref arrAdd);
+                    MenuArrCreate(ref arrAdd);
                     arrInts = arrInts.Append(arrAdd);
 
                     Console.WriteLine("\nФормирование массива элементов," +
                                       " добавляемых в КОНЕЦ массива");
-                    MenuCreateArr(ref arrAdd);
+                    MenuArrCreate(ref arrAdd);
                     arrInts = arrInts.Append(arrAdd, arrInts.Length);
 
                     Console.WriteLine("\nЭлементы успешно добавлены!");
@@ -113,9 +117,13 @@ internal static class Program
         }
     }
 
+    /// <summary>
+    ///     Меню для создания одномерного массива <see cref="T:System.Int32" /> элементов
+    /// </summary>
+    /// <param name="arrayInts">Массив</param>
     // Используется ref для возможности возврата в предыдущее меню,
-    // не перезаписывая массив
-    private static void MenuCreateArr(ref int[] arrayInts, string msgInput = "")
+    // не перезаписывая массив (как пришлось бы делать в случае с out)
+    private static void MenuArrCreate(ref int[] arrayInts)
     {
         while (true)
         {
@@ -138,6 +146,78 @@ internal static class Program
                     Console.WriteLine("Выбрано сгенерировать элементы массива " +
                                       "с помощью датчика случайных чисел");
                     GenerateArray(out arrayInts);
+                    return;
+                case "3":
+                    return;
+                default:
+                    Console.WriteLine("Введен неизвестный символ!" +
+                                      " Введите заново");
+                    break;
+            }
+        }
+    }
+
+    private static void MenuMatr(ref int[,] matrInts)
+    {
+        while (true)
+        {
+            Console.Write("\nВы выбрали работу с двумерными массивами\n"  +
+                          "Выберите, что сделать:\n1. Создать массив\n"   +
+                          "2. Вывести массив на экран\n3. Удалить все "   +
+                          "столбцы, в которых есть хотя бы один"          +
+                          " нулевой элемент\n4. Вернуться в главное меню" +
+                          "\n\nВаш выбор: ");
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine("\nВы выбрали создать массив");
+                    MenuMatrCreate(ref matrInts);
+                    break;
+                case "2":
+                    Console.WriteLine("\nВы выбрали вывести массив на экран");
+                    WriteArray(matrInts);
+                    break;
+                case "3":
+                    Console.WriteLine("\nВы выбрали Удалить все столбцы," +
+                                      " в которых есть хотя бы один"      +
+                                      " нулевой элемент");
+                    matrInts = matrInts.DeleteColumnsContainZero();
+                    break;
+                case "4":
+                    Console.WriteLine("\nВы выбрали вернуться в главное меню");
+                    return;
+                default:
+                    Console.WriteLine("\nВведен неизвестный символ! Введите заново");
+                    break;
+            }
+        }
+    }
+
+    private static void MenuMatrCreate(ref int[,] matrInts)
+    {
+        while (true)
+        {
+            Console.Write("Выберите, что сделать:\n"             +
+                          "1. Ввести элементы вручную\n"         +
+                          "2. Сгенерировать элементы"            +
+                          " с помощью датчика случайных чисел\n" +
+                          "3. Вернуться в предыдущее меню\n\n"   +
+                          "Ваш выбор: ");
+
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine("Выбрано ввести элементы массива вручную");
+                    ReadArray(out matrInts);
+                    return;
+                case "2":
+                    Console.WriteLine("Выбрано сгенерировать элементы массива " +
+                                      "с помощью датчика случайных чисел");
+                    GenerateArray(out matrInts);
                     return;
                 case "3":
                     return;
@@ -365,17 +445,36 @@ internal static class Program
     /// <param name="matrInts">Двумерный массив</param>
     private static int[,] DeleteColumnsContainZero(this int[,] matrInts)
     {
-        for (int j = 0; j < matrInts.GetLength(1); j++)
-            for (int i = 0; i < matrInts.GetLength(0); i++)
-            {
-                if (j >= matrInts.GetLength(1) || matrInts[i, j] != 0)
-                    continue;
-                matrInts = matrInts.DeleteColumn(j);
+        if (matrInts.Length > 0)
+        {
+            // Переменная-счетчик удалений
+            int deleteCounter = 0;
 
-                // Приравниваем -1, так как в цикле for призойдет инкремент на 1,
-                // а нужно проверять с элемента с индексом 0
-                i = -1;
-            }
+            for (int j = 0; j < matrInts.GetLength(1); j++)
+                for (int i = 0; i < matrInts.GetLength(0); i++)
+                {
+                    if (j >= matrInts.GetLength(1) || matrInts[i, j] != 0)
+                        continue;
+                    matrInts = matrInts.DeleteColumn(j);
+
+                    // Удаление произошло
+                    deleteCounter++;
+
+                    // Приравниваем -1, так как в цикле for призойдет инкремент на 1,
+                    // а нужно проверять с элемента с индексом 0
+                    i = -1;
+                }
+
+            Console.WriteLine(deleteCounter > 0
+                                  ? deleteCounter != 1
+                                        ? "\nСтолбцы успешно удалены!"
+                                        : "\nСтолбец успешно удален!"
+                                  : "\nВ матрице нет нулевых элементов!");
+        }
+        else
+        {
+            Console.WriteLine($"\n{OutMsgArrayEmpty}, удаление невозможно");
+        }
 
         return matrInts;
     }
