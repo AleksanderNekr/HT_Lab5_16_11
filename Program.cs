@@ -6,9 +6,9 @@ internal static class Program
 {
     private static void Main()
     {
-        int[]   arr    = Array.Empty<int>();
-        int[,]  matr   = new int[0, 0];
-        int[][] jagArr = Array.Empty<int[]>();
+        int[]   array    = Array.Empty<int>();
+        int[,]  matrix   = new int[0, 0];
+        int[][] jaggedArray = Array.Empty<int[]>();
 
         while (true)
         {
@@ -23,13 +23,13 @@ internal static class Program
             switch (choice)
             {
                 case "1":
-                    MenuArr(ref arr);
+                    MenuArr(ref array);
                     break;
                 case "2":
-                    MenuMatr(ref matr);
+                    MenuMatr(ref matrix);
                     break;
                 case "3":
-                    MenuJag(ref jagArr);
+                    MenuJag(ref jaggedArray);
                     break;
                 case "4":
                     Console.WriteLine("Завершение программы...");
@@ -39,21 +39,6 @@ internal static class Program
                     break;
             }
         }
-
-//        // Тип значений, допускающий значение NULL, или T?,
-//        // представляет все значения своего базового типа значения T,
-//        // а также дополнительное значение NULL
-//        GenerateArray(out int[,]? arr);
-//        WriteArray(arr);
-//        Console.WriteLine();
-//        arr = arr.DeleteColumnsContainZero();
-//        WriteArray(arr);
-//        GenerateArray(out int[][] jaggedArr);
-//        WriteArray(jaggedArr);
-//        Console.WriteLine();
-//        int[] newArr = { 1, 2, 3, 4 };
-//        jaggedArr = jaggedArr.Append(newArr, 4);
-//        WriteArray(jaggedArr);
     }
 
     #region Литерные строки сообщений
