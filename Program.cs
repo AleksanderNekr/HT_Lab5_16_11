@@ -43,7 +43,7 @@ internal static class Program
         }
     }
 
-    #region Литерные строки сообщений
+    #region Литерные строки некоторых сообщений
 
     private const string MsgInputCountOf       = "Введите целое неотрицательное число – количество ";
     private const string MsgCreateArraySuccess = "Массив успешно сформирован";
@@ -673,7 +673,6 @@ internal static class Program
     /// <param name="jaggedArrInts">Исходный рваный массив</param>
     /// <param name="addArrInts">Дополнительный одномерный массив</param>
     /// <param name="index">Индекс места вставки</param>
-    /// <returns></returns>
     private static int[][] Append(this int[][] jaggedArrInts, int[] addArrInts, uint index)
     {
         Array.Resize(ref jaggedArrInts, jaggedArrInts.Length + 1);
