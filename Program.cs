@@ -97,28 +97,6 @@ internal static class Program
         } while (!isConvert);
     }
 
-    /// <summary>
-    ///     Ввод позиции строки рваного элемента для вставки новой
-    /// </summary>
-    /// <param name="jaggedArrInts">Рваный массив</param>
-    /// <returns>Позиция для вставки строки</returns>
-    private static uint ReadPositionToInsert(int[][] jaggedArrInts)
-    {
-        uint pos;
-        do
-        {
-            Console.Write("\nВведите позицию строки – место, куда нужно вставлять новую строку: ");
-            ReadUint(out pos);
-
-            Console.WriteLine(pos > jaggedArrInts.Length + 1
-                                  ? "\nНельзя вставить на эту позицию, позиция не должна быть" +
-                                    " больше количества строк рваного массива + 1!"
-                                  : "\nПозиция успешно введена");
-        } while (pos > jaggedArrInts.Length + 1);
-
-        return pos;
-    }
-
     #endregion
 
     #region Одномерный массив
@@ -601,6 +579,30 @@ internal static class Program
                     break;
             }
         }
+    }
+
+    /// <summary>
+    ///     Ввод позиции строки рваного элемента для вставки новой
+    /// </summary>
+    /// <param name="jaggedArrInts">Рваный массив</param>
+    /// <returns>Позиция для вставки строки</returns>
+    private static uint ReadPositionToInsert(int[][] jaggedArrInts)
+    {
+        uint pos;
+        int  maxPos = jaggedArrInts.Length + 1;
+        do
+        {
+            Console.Write("\nВведите позицию строки – место, куда нужно вставлять новую строку" +
+                          $" (целое число от 1 до {maxPos}): ");
+            ReadUint(out pos);
+
+            Console.WriteLine(pos > maxPos || pos < 1
+                                  ? "\nНельзя вставить на эту позицию, позиция должна быть" +
+                                    $" > 0 и <= {maxPos}!"
+                                  : "\nПозиция успешно введена, строка вставлена на эту позицию");
+        } while (pos > maxPos);
+
+        return pos;
     }
 
     /// <summary>
