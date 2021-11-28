@@ -130,15 +130,15 @@ internal static class Program
                     arrInts = arrInts.Append(arrAdd);
                     Console.WriteLine(arrAdd.Length > 0
                                           ? "\nДополнительные элементы успешно добавлены в начало!"
-                                          : "\nДополнительных элементов нет, массив не изменился!");
+                                          : "\nДополнительных элементов в начало не добавлено!");
 
                     Console.WriteLine("\nФормирование массива элементов," +
                                       " добавляемых в КОНЕЦ массива");
                     MenuArrCreate(ref arrAdd);
                     arrInts = arrInts.Append(arrAdd, arrInts.Length);
                     Console.WriteLine(arrAdd.Length > 0
-                                          ? "\nЭлементы успешно добавлены в конец!"
-                                          : "\nЭлементов нет, массив не изменился!");
+                                          ? "\nДополнительные элементы успешно добавлены в конец!"
+                                          : "\nДополнительных элементов в конец не добавлено!");
 
                     break;
                 case "4":
@@ -523,8 +523,16 @@ internal static class Program
                     int[] arrAdd = Array.Empty<int>();
                     MenuArrCreate(ref arrAdd);
 
-                    uint pos = ReadPositionToInsert(jaggedArrInts);
-                    jaggedArrInts = jaggedArrInts.Append(arrAdd, pos - 1);
+                    if (arrAdd.Length > 0)
+                    {
+                        uint pos = ReadPositionToInsert(jaggedArrInts);
+                        jaggedArrInts = jaggedArrInts.Append(arrAdd, pos - 1);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Исходный массив остается прежним");
+                    }
+
                     break;
                 case "4":
                     Console.WriteLine("\nВы выбрали вернуться в главное меню");
@@ -592,7 +600,7 @@ internal static class Program
                                   ? "\nНельзя вставить на эту позицию, позиция должна быть" +
                                     $" больше 0 и не больше {maxPos}!"
                                   : "\nПозиция успешно введена, строка вставлена на эту позицию");
-        } while (pos > maxPos);
+        } while (pos > maxPos || pos < 1);
 
         return pos;
     }
