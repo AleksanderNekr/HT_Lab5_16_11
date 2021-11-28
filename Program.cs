@@ -98,7 +98,7 @@ internal static class Program
     }
 
     /// <summary>
-    ///     Функция для ввода позиции строки рваного элемента для вставки новой
+    ///     Ввод позиции строки рваного элемента для вставки новой
     /// </summary>
     /// <param name="jaggedArrInts">Рваный массив</param>
     /// <returns>Позиция для вставки строки</returns>
@@ -183,7 +183,7 @@ internal static class Program
     }
 
     /// <summary>
-    ///     Меню для создания одномерного массива <see cref="T:System.Int32" /> элементов
+    ///     Меню для заполнения одномерного массива <see cref="T:System.Int32" /> значениями
     /// </summary>
     /// <param name="arrayInts">Массив</param>
     // Используется ref для возможности возврата в предыдущее меню,
@@ -347,7 +347,7 @@ internal static class Program
     }
 
     /// <summary>
-    ///     Меню для создания матрицы
+    ///     Меню для заполнения матрицы значениями <see cref="T:System.Int32" />
     /// </summary>
     /// <param name="matrInts">Матрица</param>
     private static void MenuMatrCreate(ref int[,] matrInts)
@@ -565,6 +565,10 @@ internal static class Program
         }
     }
 
+    /// <summary>
+    ///     Меню для заполнения рваного массива
+    /// </summary>
+    /// <param name="jaggedArrInts">Рваный массив</param>
     private static void MenuJagArrCreate(ref int[][] jaggedArrInts)
     {
         while (true)
