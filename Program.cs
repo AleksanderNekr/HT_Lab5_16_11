@@ -6,28 +6,6 @@ internal static class Program
 {
     private static void Main()
     {
-        MainMenu();
-
-//        // Тип значений, допускающий значение NULL, или T?,
-//        // представляет все значения своего базового типа значения T,
-//        // а также дополнительное значение NULL
-//        GenerateArray(out int[,]? arr);
-//        WriteArray(arr);
-//        Console.WriteLine();
-//        arr = arr.DeleteColumnsContainZero();
-//        WriteArray(arr);
-//        GenerateArray(out int[][] jaggedArr);
-//        WriteArray(jaggedArr);
-//        Console.WriteLine();
-//        int[] newArr = { 1, 2, 3, 4 };
-//        jaggedArr = jaggedArr.Append(newArr, 4);
-//        WriteArray(jaggedArr);
-    }
-
-    #region Меню
-
-    private static void MainMenu()
-    {
         int[]   arr    = Array.Empty<int>();
         int[,]  matr   = new int[0, 0];
         int[][] jagArr = Array.Empty<int[]>();
@@ -51,7 +29,7 @@ internal static class Program
                     MenuMatr(ref matr);
                     break;
                 case "3":
-//                    TODO
+                    MenuJag(ref jagArr);
                     break;
                 case "4":
                     Console.WriteLine("Завершение программы...");
@@ -61,7 +39,89 @@ internal static class Program
                     break;
             }
         }
+
+//        // Тип значений, допускающий значение NULL, или T?,
+//        // представляет все значения своего базового типа значения T,
+//        // а также дополнительное значение NULL
+//        GenerateArray(out int[,]? arr);
+//        WriteArray(arr);
+//        Console.WriteLine();
+//        arr = arr.DeleteColumnsContainZero();
+//        WriteArray(arr);
+//        GenerateArray(out int[][] jaggedArr);
+//        WriteArray(jaggedArr);
+//        Console.WriteLine();
+//        int[] newArr = { 1, 2, 3, 4 };
+//        jaggedArr = jaggedArr.Append(newArr, 4);
+//        WriteArray(jaggedArr);
     }
+
+    #region Литерные строки сообщений
+
+    private const string InpMsgCountOf      = "Введите целое неотрицательное число – количество ";
+    private const string OutMsgArraySuccess = "Массив успешно сформирован";
+    private const string OutMsgArrayEmpty   = "Массив не содержит элементов";
+
+    #endregion
+
+    #region Дополнительные функции
+
+    /// <summary>
+    ///     Ввод числа типа <see cref="T:System.Int32" />
+    /// </summary>
+    private static void ReadInt(out int intNum)
+    {
+        bool isConvert;
+        do
+        {
+            isConvert = int.TryParse(Console.ReadLine(), out intNum);
+            if (!isConvert)
+                Console.Write("ОШИБКА! Введено нецелое число!\nВведите заново: ");
+        } while (!isConvert);
+    }
+
+    /// <summary>
+    ///     Ввод числа типа <see cref="T:System.UInt32" />
+    /// </summary>
+    /// <param name="uintNum">Число</param>
+    private static void ReadUint(out uint uintNum)
+    {
+        bool isConvert;
+        do
+        {
+            isConvert = uint.TryParse(Console.ReadLine(), out uintNum);
+            if (!isConvert)
+                Console.Write("ОШИБКА! Введено нецелое число," +
+                              " или отрицательное, "           +
+                              "или не число!\nВведите заново: ");
+        } while (!isConvert);
+    }
+
+    /// <summary>
+    ///     Функция для ввода позиции строки рваного элемента для вставки новой
+    /// </summary>
+    /// <param name="jaggedArrInts">Рваный массив</param>
+    /// <returns>Позиция для вставки строки</returns>
+    private static uint ReadPositionToInsert(int[][] jaggedArrInts)
+    {
+        uint pos;
+        do
+        {
+            Console.Write("\nВведите позицию строки – место, куда нужно вставлять новую строку: ");
+            ReadUint(out pos);
+
+            Console.WriteLine(pos > jaggedArrInts.Length + 1
+                                  ? "\nНельзя вставить на эту позицию, позиция не должна быть" +
+                                    " больше количества строк рваного массива + 1!"
+                                  : "\nПозиция успешно введена");
+        } while (pos > jaggedArrInts.Length + 1);
+
+        return pos;
+    }
+
+    #endregion
+
+    #region Одномерный массив
 
     /// <summary>
     ///     Меню для одномерного массива <see cref="T:System.Int32" /> значений
@@ -99,13 +159,18 @@ internal static class Program
                                       " добавляемых в НАЧАЛО массива");
                     MenuArrCreate(ref arrAdd);
                     arrInts = arrInts.Append(arrAdd);
+                    Console.WriteLine(arrAdd.Length > 0
+                                          ? "\nЭлементы успешно добавлены в начало!"
+                                          : "\nЭлементов нет, массив не изменился!");
 
                     Console.WriteLine("\nФормирование массива элементов," +
                                       " добавляемых в КОНЕЦ массива");
                     MenuArrCreate(ref arrAdd);
                     arrInts = arrInts.Append(arrAdd, arrInts.Length);
+                    Console.WriteLine(arrAdd.Length > 0
+                                          ? "\nЭлементы успешно добавлены в конец!"
+                                          : "\nЭлементов нет, массив не изменился!");
 
-                    Console.WriteLine("\nЭлементы успешно добавлены!");
                     break;
                 case "4":
                     Console.WriteLine("\nВы выбрали вернуться в главное меню");
@@ -156,125 +221,6 @@ internal static class Program
             }
         }
     }
-
-    private static void MenuMatr(ref int[,] matrInts)
-    {
-        while (true)
-        {
-            Console.Write("\nВы выбрали работу с двумерными массивами\n"  +
-                          "Выберите, что сделать:\n1. Создать массив\n"   +
-                          "2. Вывести массив на экран\n3. Удалить все "   +
-                          "столбцы, в которых есть хотя бы один"          +
-                          " нулевой элемент\n4. Вернуться в главное меню" +
-                          "\n\nВаш выбор: ");
-            string? choice = Console.ReadLine();
-
-            switch (choice)
-            {
-                case "1":
-                    Console.WriteLine("\nВы выбрали создать массив");
-                    MenuMatrCreate(ref matrInts);
-                    break;
-                case "2":
-                    Console.WriteLine("\nВы выбрали вывести массив на экран");
-                    WriteArray(matrInts);
-                    break;
-                case "3":
-                    Console.WriteLine("\nВы выбрали Удалить все столбцы," +
-                                      " в которых есть хотя бы один"      +
-                                      " нулевой элемент");
-                    matrInts = matrInts.DeleteColumnsContainZero();
-                    break;
-                case "4":
-                    Console.WriteLine("\nВы выбрали вернуться в главное меню");
-                    return;
-                default:
-                    Console.WriteLine("\nВведен неизвестный символ! Введите заново");
-                    break;
-            }
-        }
-    }
-
-    private static void MenuMatrCreate(ref int[,] matrInts)
-    {
-        while (true)
-        {
-            Console.Write("Выберите, что сделать:\n"             +
-                          "1. Ввести элементы вручную\n"         +
-                          "2. Сгенерировать элементы"            +
-                          " с помощью датчика случайных чисел\n" +
-                          "3. Вернуться в предыдущее меню\n\n"   +
-                          "Ваш выбор: ");
-
-            string? choice = Console.ReadLine();
-
-            switch (choice)
-            {
-                case "1":
-                    Console.WriteLine("Выбрано ввести элементы массива вручную");
-                    ReadArray(out matrInts);
-                    return;
-                case "2":
-                    Console.WriteLine("Выбрано сгенерировать элементы массива " +
-                                      "с помощью датчика случайных чисел");
-                    GenerateArray(out matrInts);
-                    return;
-                case "3":
-                    return;
-                default:
-                    Console.WriteLine("Введен неизвестный символ!" +
-                                      " Введите заново");
-                    break;
-            }
-        }
-    }
-
-    #endregion
-
-    #region Литерные строки сообщений
-
-    private const string InpMsgCountOf      = "Введите целое неотрицательное число – количество ";
-    private const string OutMsgArraySuccess = "Массив успешно сформирован";
-    private const string OutMsgArrayEmpty   = "Массив не содержит элементов";
-
-    #endregion
-
-    #region Дополнительные функции
-
-    /// <summary>
-    ///     Ввод числа типа <see cref="T:System.Int32" />
-    /// </summary>
-    private static void ReadInt(out int intNum)
-    {
-        bool isConvert;
-        do
-        {
-            isConvert = int.TryParse(Console.ReadLine(), out intNum);
-            if (!isConvert)
-                Console.Write("ОШИБКА! Введено нецелое число!\nВведите заново: ");
-        } while (!isConvert);
-    }
-
-    /// <summary>
-    ///     Ввод числа типа <see cref="T:System.UInt32" />
-    /// </summary>
-    /// <param name="uintNum">Число</param>
-    private static void ReadUint(out uint uintNum)
-    {
-        bool isConvert;
-        do
-        {
-            isConvert = uint.TryParse(Console.ReadLine(), out uintNum);
-            if (!isConvert)
-                Console.Write("ОШИБКА! Введено нецелое число," +
-                              " или отрицательное, "           +
-                              "или не число!\nВведите заново: ");
-        } while (!isConvert);
-    }
-
-    #endregion
-
-    #region Одномерный массив
 
     /// <summary>
     ///     Ручной ввод элементов массива <see cref="T:System.Int32" /> значений
@@ -357,6 +303,86 @@ internal static class Program
     #endregion
 
     #region Двумерный массив
+
+    /// <summary>
+    ///     Меню для матрицы <see cref="T:System.Int32" /> значений
+    /// </summary>
+    /// <param name="matrInts">Матрица значений</param>
+    private static void MenuMatr(ref int[,] matrInts)
+    {
+        while (true)
+        {
+            Console.Write("\nВы выбрали работу с двумерными массивами\n"  +
+                          "Выберите, что сделать:\n1. Создать массив\n"   +
+                          "2. Вывести массив на экран\n3. Удалить все "   +
+                          "столбцы, в которых есть хотя бы один"          +
+                          " нулевой элемент\n4. Вернуться в главное меню" +
+                          "\n\nВаш выбор: ");
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine("\nВы выбрали создать массив");
+                    MenuMatrCreate(ref matrInts);
+                    break;
+                case "2":
+                    Console.WriteLine("\nВы выбрали вывести массив на экран");
+                    WriteArray(matrInts);
+                    break;
+                case "3":
+                    Console.WriteLine("\nВы выбрали удалить все столбцы," +
+                                      " в которых есть хотя бы один"      +
+                                      " нулевой элемент");
+                    matrInts = matrInts.DeleteColumnsContainZero();
+                    break;
+                case "4":
+                    Console.WriteLine("\nВы выбрали вернуться в главное меню");
+                    return;
+                default:
+                    Console.WriteLine("\nВведен неизвестный символ! Введите заново");
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Меню для создания матрицы
+    /// </summary>
+    /// <param name="matrInts">Матрица</param>
+    private static void MenuMatrCreate(ref int[,] matrInts)
+    {
+        while (true)
+        {
+            Console.Write("Выберите, что сделать:\n"             +
+                          "1. Ввести элементы вручную\n"         +
+                          "2. Сгенерировать элементы"            +
+                          " с помощью датчика случайных чисел\n" +
+                          "3. Вернуться в предыдущее меню\n\n"   +
+                          "Ваш выбор: ");
+
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine("Выбрано ввести элементы массива вручную");
+                    ReadArray(out matrInts);
+                    return;
+                case "2":
+                    Console.WriteLine("Выбрано сгенерировать элементы массива " +
+                                      "с помощью датчика случайных чисел");
+                    GenerateArray(out matrInts);
+                    return;
+                case "3":
+                    return;
+                default:
+                    Console.WriteLine("Введен неизвестный символ!" +
+                                      " Введите заново");
+                    break;
+            }
+        }
+    }
 
     /// <summary>
     ///     Ручной ввод элементов двумерного массива
@@ -496,6 +522,84 @@ internal static class Program
     #region Рваный массив
 
     /// <summary>
+    ///     Меню для рваного массива
+    /// </summary>
+    /// <param name="jaggedArrInts">Рваный массив</param>
+    private static void MenuJag(ref int[][] jaggedArrInts)
+    {
+        while (true)
+        {
+            Console.Write("\nВы выбрали работу с рваными массивами\n"   +
+                          "Выберите, что сделать:\n1. Создать массив\n" +
+                          "2. Вывести массив на экран\n3. Добавить "    +
+                          "строку с заданным номером\n4. Вернуться"     +
+                          " в главное меню\n\nВаш выбор: ");
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine("\nВы выбрали создать массив");
+                    MenuJagArrCreate(ref jaggedArrInts);
+                    break;
+                case "2":
+                    Console.WriteLine("\nВы выбрали вывести массив на экран");
+                    WriteArray(jaggedArrInts);
+                    break;
+                case "3":
+                    Console.WriteLine("\nВы выбрали добавить строку (массив элементов)" +
+                                      " с заданным номером");
+                    int[] arrAdd = Array.Empty<int>();
+                    MenuArrCreate(ref arrAdd);
+
+                    uint pos = ReadPositionToInsert(jaggedArrInts);
+                    jaggedArrInts = jaggedArrInts.Append(arrAdd, pos - 1);
+                    break;
+                case "4":
+                    Console.WriteLine("\nВы выбрали вернуться в главное меню");
+                    return;
+                default:
+                    Console.WriteLine("\nВведен неизвестный символ! Введите заново");
+                    break;
+            }
+        }
+    }
+
+    private static void MenuJagArrCreate(ref int[][] jaggedArrInts)
+    {
+        while (true)
+        {
+            Console.Write("Выберите, что сделать:\n"             +
+                          "1. Ввести элементы вручную\n"         +
+                          "2. Сгенерировать элементы"            +
+                          " с помощью датчика случайных чисел\n" +
+                          "3. Вернуться в предыдущее меню\n\n"   +
+                          "Ваш выбор: ");
+
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine("Выбрано ввести элементы массива вручную");
+                    ReadArray(out jaggedArrInts);
+                    return;
+                case "2":
+                    Console.WriteLine("Выбрано сгенерировать элементы массива " +
+                                      "с помощью датчика случайных чисел");
+                    GenerateArray(out jaggedArrInts);
+                    return;
+                case "3":
+                    return;
+                default:
+                    Console.WriteLine("Введен неизвестный символ!" +
+                                      " Введите заново");
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
     ///     Ручной ввод элементов рваного массива <see cref="T:System.Int32" /> значений
     /// </summary>
     private static void ReadArray(out int[][] jaggedArrInts)
@@ -564,7 +668,7 @@ internal static class Program
     /// <param name="addArrInts">Дополнительный одномерный массив</param>
     /// <param name="index">Индекс места вставки</param>
     /// <returns></returns>
-    private static int[][] Append(this int[][] jaggedArrInts, int[] addArrInts, int index)
+    private static int[][] Append(this int[][] jaggedArrInts, int[] addArrInts, uint index)
     {
         Array.Resize(ref jaggedArrInts, jaggedArrInts.Length + 1);
         Array.Copy(jaggedArrInts, index,
