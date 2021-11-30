@@ -52,42 +52,6 @@ internal static class Program
 
     #endregion
 
-    #region Дополнительные функции
-
-    /// <summary>
-    ///     Ввод числа типа <see cref="T:System.Int32" />
-    /// </summary>
-    private static void ReadInt(out int intNum)
-    {
-        bool isConvert;
-        do
-        {
-            isConvert = int.TryParse(Console.ReadLine(), out intNum);
-            if (!isConvert)
-                Console.Write("ОШИБКА! Введено нецелое число, или строка," +
-                              " или слишком большое целое!"                +
-                              "\nВведите заново: ");
-        } while (!isConvert);
-    }
-
-    /// <summary>
-    ///     Ввод числа типа <see cref="T:System.UInt32" />
-    /// </summary>
-    /// <param name="uintNum">Число</param>
-    private static void ReadUint(out uint uintNum)
-    {
-        bool isConvert;
-        do
-        {
-            isConvert = uint.TryParse(Console.ReadLine(), out uintNum);
-            if (!isConvert)
-                Console.Write("ОШИБКА! Введено нецелое число, или отрицательное, " +
-                              "или не число!\nВведите заново: ");
-        } while (!isConvert);
-    }
-
-    #endregion
-
     #region Одномерный массив
 
     /// <summary>
@@ -682,6 +646,42 @@ internal static class Program
         jaggedArrInts[index] = addArrInts;
 
         return jaggedArrInts;
+    }
+
+    #endregion
+
+    #region Дополнительные функции
+
+    /// <summary>
+    ///     Ввод числа типа <see cref="T:System.Int32" />
+    /// </summary>
+    private static void ReadInt(out int intNum)
+    {
+        bool isConvert;
+        do
+        {
+            isConvert = int.TryParse(Console.ReadLine(), out intNum);
+            if (!isConvert)
+                Console.Write("ОШИБКА! Введено нецелое число, или строка," +
+                              " или слишком большое целое!"                +
+                              "\nВведите заново: ");
+        } while (!isConvert);
+    }
+
+    /// <summary>
+    ///     Ввод числа типа <see cref="T:System.UInt32" />
+    /// </summary>
+    /// <param name="uintNum">Число</param>
+    private static void ReadUint(out uint uintNum)
+    {
+        bool isConvert;
+        do
+        {
+            isConvert = uint.TryParse(Console.ReadLine(), out uintNum);
+            if (!isConvert)
+                Console.Write("ОШИБКА! Введено нецелое число, или отрицательное, " +
+                              "или не число!\nВведите заново: ");
+        } while (!isConvert);
     }
 
     #endregion
