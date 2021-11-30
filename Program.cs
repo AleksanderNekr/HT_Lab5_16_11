@@ -137,15 +137,16 @@ internal static class Program
             switch (choice)
             {
                 case "1":
-                    Console.WriteLine("Выбрано ввести элементы массива вручную");
+                    Console.WriteLine("\nВыбрано ввести элементы массива вручную");
                     ReadArray(out arrayInts);
                     return;
                 case "2":
-                    Console.WriteLine("Выбрано сгенерировать элементы массива " +
+                    Console.WriteLine("\nВыбрано сгенерировать элементы массива " +
                                       "с помощью датчика случайных чисел");
                     GenerateArray(out arrayInts);
                     return;
                 case "3":
+                    Console.WriteLine("\nВы выбрали вернуться в предыдущее меню");
                     return;
                 default:
                     Console.WriteLine(MsgErrUnknownChar);
