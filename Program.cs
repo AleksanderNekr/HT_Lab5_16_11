@@ -144,6 +144,7 @@ internal static class Program
                     Console.WriteLine("\nВыбрано сгенерировать элементы массива " +
                                       "с помощью датчика случайных чисел");
                     GenerateArray(out arrayInts);
+                    WriteArray(arrayInts);
                     return;
                 case "3":
                     Console.WriteLine("\nВы выбрали вернуться в предыдущее меню");
@@ -190,7 +191,6 @@ internal static class Program
             arrayInts[i] = generator.Next(-50, 51);
 
         Console.WriteLine(MsgCreateArraySuccess);
-        WriteArray(arrayInts);
     }
 
     /// <summary>
@@ -308,6 +308,7 @@ internal static class Program
                     Console.WriteLine("\nВыбрано сгенерировать элементы массива " +
                                       "с помощью датчика случайных чисел");
                     GenerateArray(out matrInts);
+                    WriteArray(matrInts);
                     return;
                 case "3":
                     Console.WriteLine("\nВы выбрали вернуться в предыдущее меню");
@@ -362,7 +363,6 @@ internal static class Program
                 matrInts[i, j] = generator.Next(-5, 5);
 
         Console.WriteLine(MsgCreateArraySuccess);
-        WriteArray(matrInts);
     }
 
     /// <summary>
@@ -537,6 +537,7 @@ internal static class Program
                     Console.WriteLine("\nВыбрано сгенерировать элементы массива " +
                                       "с помощью датчика случайных чисел");
                     GenerateArray(out jaggedArrInts);
+                    WriteArray(jaggedArrInts);
                     return;
                 case "3":
                     Console.WriteLine("\nВы выбрали вернуться в предыдущее меню");
@@ -617,7 +618,6 @@ internal static class Program
         }
 
         Console.WriteLine(MsgCreateArraySuccess);
-        WriteArray(jaggedArrInts);
     }
 
     /// <summary>
