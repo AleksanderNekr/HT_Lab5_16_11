@@ -200,8 +200,8 @@ internal static class Program
     {
         if (arrayInts.Length > 0)
         {
-            foreach (int variable in arrayInts)
-                Console.Write($"{variable,5}");
+            foreach (int element in arrayInts)
+                Console.Write($"{element,5}");
             Console.WriteLine();
         }
         else
@@ -310,6 +310,7 @@ internal static class Program
                     GenerateArray(out matrInts);
                     return;
                 case "3":
+                    Console.WriteLine("\nВы выбрали вернуться в предыдущее меню");
                     return;
                 default:
                     Console.WriteLine(MsgErrUnknownChar);
@@ -538,6 +539,7 @@ internal static class Program
                     GenerateArray(out jaggedArrInts);
                     return;
                 case "3":
+                    Console.WriteLine("\nВы выбрали вернуться в предыдущее меню");
                     return;
                 default:
                     Console.WriteLine(MsgErrUnknownChar);
@@ -608,8 +610,7 @@ internal static class Program
         jaggedArrInts = new int[countOfRows][];
         for (int i = 0; i < countOfRows; i++)
         {
-            Console.Write($"{MsgInputCountOf}ячеек в {i + 1} строке: ");
-            ReadUint(out uint countOfCells);
+            int countOfCells = generator.Next(1, 11);
             jaggedArrInts[i] = new int[countOfCells];
             for (int j = 0; j < countOfCells; j++)
                 jaggedArrInts[i][j] = generator.Next(-50, 51);
