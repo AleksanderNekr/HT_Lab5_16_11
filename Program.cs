@@ -439,9 +439,9 @@ internal static class Program
                              : numbersStr;
 
             Console.WriteLine(deleteCounter > 0
-                                  ? deleteCounter != 1
-                                        ? $"\nСтолбцы с номерами {numbersStr} успешно удалены!"
-                                        : $"\nСтолбец №{numbersStr} успешно удален!"
+                                  ? deleteCounter == 1
+                                        ? $"\nСтолбец №{numbersStr} успешно удален!"
+                                        : $"\nСтолбцы с номерами {numbersStr} успешно удалены!"
                                   : "\nВ матрице нет нулевых элементов!");
         }
         else
