@@ -196,7 +196,7 @@ internal static class Program
     /// <summary>
     ///     Вывод массива <see cref="T:System.Int32" /> значений в консоль
     /// </summary>
-    private static void WriteArray(int[] arrayInts)
+    private static void WriteArray(int[] arrayInts, string msgArrEmpty = MsgArrayEmpty)
     {
         if (arrayInts.Length > 0)
         {
@@ -206,7 +206,7 @@ internal static class Program
         }
         else
         {
-            Console.WriteLine(MsgArrayEmpty);
+            Console.WriteLine(msgArrEmpty);
         }
     }
 
@@ -549,7 +549,7 @@ internal static class Program
     }
 
     /// <summary>
-    ///     Ввод позиции строки рваного элемента для вставки новой
+    ///     Ввод позиции строки рваного элемента для вставки новой строки
     /// </summary>
     /// <param name="jaggedArrInts">Рваный массив</param>
     /// <returns>Позиция для вставки строки</returns>
@@ -627,7 +627,7 @@ internal static class Program
     {
         if (jaggedArrInts.Length > 0)
             foreach (int[] row in jaggedArrInts)
-                WriteArray(row);
+                WriteArray(row, "");
         else
             Console.WriteLine(MsgArrayEmpty);
     }
