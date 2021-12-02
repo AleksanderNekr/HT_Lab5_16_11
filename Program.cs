@@ -58,6 +58,8 @@ internal static class Program
     ///     Меню для одномерного массива <see cref="T:System.Int32" /> значений
     /// </summary>
     /// <param name="arrInts">Массив</param>
+    // Используется ref для возможности возврата в предыдущее меню,
+    // не перезаписывая массив (как пришлось бы делать в случае с out)
     private static void MenuArr(ref int[] arrInts)
     {
         while (true)
@@ -119,8 +121,6 @@ internal static class Program
     ///     Меню для заполнения одномерного массива <see cref="T:System.Int32" /> значениями
     /// </summary>
     /// <param name="arrayInts">Массив</param>
-    // Используется ref для возможности возврата в предыдущее меню,
-    // не перезаписывая массив (как пришлось бы делать в случае с out)
     private static void MenuArrCreate(ref int[] arrayInts)
     {
         while (true)
@@ -421,8 +421,6 @@ internal static class Program
                     if (j >= matrInts.GetLength(1) || matrInts[i, j] != 0)
                         continue;
                     matrInts = matrInts.DeleteColumn(j);
-
-                    // Удаление произошло
                     deleteCounter++;
 
                     // Накапливаем номера удаленных столбцов для вывода
