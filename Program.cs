@@ -194,8 +194,10 @@ internal static class Program
     }
 
     /// <summary>
-    ///     Вывод массива <see cref="T:System.Int32" /> значений в консоль
+    /// Вывод массива <see cref="T:System.Int32" /> значений в консоль
     /// </summary>
+    /// <param name="arrayInts">Массив</param>
+    /// <param name="msgArrEmpty">Необязательное сообщение в случае, если массив пустой</param>
     private static void WriteArray(int[] arrayInts, string msgArrEmpty = MsgArrayEmpty)
     {
         if (arrayInts.Length > 0)
