@@ -75,7 +75,7 @@ internal static class Program
             switch (choice)
             {
                 case "1":
-                    Console.WriteLine();
+                    Console.WriteLine("\nВыбрано создать массив");
                     MenuArrCreate(ref arrInts);
                     break;
                 case "2":
@@ -139,6 +139,7 @@ internal static class Program
                 case "1":
                     Console.WriteLine("\nВыбрано ввести элементы массива вручную");
                     ReadArray(out arrayInts);
+                    WriteArray(arrayInts);
                     return;
                 case "2":
                     Console.WriteLine("\nВыбрано сгенерировать элементы массива " +
@@ -172,7 +173,6 @@ internal static class Program
         }
 
         Console.WriteLine(MsgCreateArraySuccess);
-        WriteArray(arrayInts);
     }
 
     /// <summary>
@@ -303,6 +303,7 @@ internal static class Program
                 case "1":
                     Console.WriteLine("\nВыбрано ввести элементы массива вручную");
                     ReadArray(out matrInts);
+                    WriteArray(matrInts);
                     return;
                 case "2":
                     Console.WriteLine("\nВыбрано сгенерировать элементы массива " +
@@ -341,7 +342,6 @@ internal static class Program
             }
 
         Console.WriteLine(MsgCreateArraySuccess);
-        WriteArray(matrInts);
     }
 
     /// <summary>
@@ -532,6 +532,7 @@ internal static class Program
                 case "1":
                     Console.WriteLine("\nВыбрано ввести элементы массива вручную");
                     ReadArray(out jaggedArrInts);
+                    WriteArray(jaggedArrInts);
                     return;
                 case "2":
                     Console.WriteLine("\nВыбрано сгенерировать элементы массива " +
@@ -595,7 +596,6 @@ internal static class Program
         }
 
         Console.WriteLine(MsgCreateArraySuccess);
-        WriteArray(jaggedArrInts);
     }
 
     /// <summary>
