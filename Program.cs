@@ -87,7 +87,6 @@ internal static class Program
                 case "3":
                     Console.WriteLine("\nВы выбрали добавить элементы" +
                                       " в начало и в конец массива");
-
                     AppendToStartOrEnd(ref arrInts, "НАЧАЛО");
                     AppendToStartOrEnd(ref arrInts, "КОНЕЦ");
                     break;
