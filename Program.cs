@@ -88,24 +88,8 @@ internal static class Program
                     Console.WriteLine("\nВы выбрали добавить элементы" +
                                       " в начало и в конец массива");
 
-                    int[] arrAdd = Array.Empty<int>();
-
-                    Console.WriteLine("\nФормирование массива элементов," +
-                                      " добавляемых в НАЧАЛО массива");
-                    MenuArrCreate(ref arrAdd);
-                    arrInts = arrInts.Append(arrAdd);
-                    Console.WriteLine(arrAdd.Length > 0
-                                          ? "\nДополнительные элементы успешно добавлены в начало!"
-                                          : "\nДополнительных элементов в начало не добавлено!");
-
-                    Console.WriteLine("\nФормирование массива элементов," +
-                                      " добавляемых в КОНЕЦ массива");
-                    MenuArrCreate(ref arrAdd);
-                    arrInts = arrInts.Append(arrAdd, arrInts.Length);
-                    Console.WriteLine(arrAdd.Length > 0
-                                          ? "\nДополнительные элементы успешно добавлены в конец!"
-                                          : "\nДополнительных элементов в конец не добавлено!");
-
+                    AppendToStartOrEnd(ref arrInts, "НАЧАЛО");
+                    AppendToStartOrEnd(ref arrInts, "КОНЕЦ");
                     break;
                 case "4":
                     Console.WriteLine("\nВы выбрали вернуться в главное меню");
@@ -194,7 +178,7 @@ internal static class Program
     }
 
     /// <summary>
-    /// Вывод массива <see cref="T:System.Int32" /> значений в консоль
+    ///     Вывод массива <see cref="T:System.Int32" /> значений в консоль
     /// </summary>
     /// <param name="arrayInts">Массив</param>
     /// <param name="msgArrEmpty">Необязательное сообщение в случае, если массив пустой</param>
@@ -233,6 +217,29 @@ internal static class Program
             arrayInts[i] = arrayIntsAdd[i - index];
 
         return arrayInts;
+    }
+
+    /// <summary>
+    ///     Функция для добавления доп. элементов в начало или в конец
+    /// </summary>
+    /// <param name="arrInts">Массив</param>
+    /// <param name="msgForInput">Сообщение для ввода</param>
+    private static void AppendToStartOrEnd(ref int[] arrInts, string msgForInput = "")
+    {
+        Console.WriteLine("\nФормирование массива элементов," +
+                          $" добавляемых в {msgForInput} массива");
+
+        int[] arrAdd = Array.Empty<int>();
+        MenuArrCreate(ref arrAdd);
+
+        // Добавление в начало или в конец
+        arrInts = msgForInput == "НАЧАЛО"
+                      ? arrInts.Append(arrAdd)
+                      : arrInts.Append(arrAdd, arrInts.Length);
+
+        Console.WriteLine(arrAdd.Length > 0
+                              ? $"\nДополнительные элементы успешно добавлены в {msgForInput}!"
+                              : $"\nДополнительных элементов в {msgForInput} не добавлено!");
     }
 
     #endregion
