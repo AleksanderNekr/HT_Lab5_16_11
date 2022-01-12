@@ -9,6 +9,7 @@ internal static class Program
         int[]   array       = Array.Empty<int>();
         int[,]  matrix      = new int[0, 0];
         int[][] jaggedArray = Array.Empty<int[]>();
+        // Created second branch
 
         while (true)
         {
